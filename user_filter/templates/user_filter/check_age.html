@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+{% load static %}
+
+    {% block content %}
+    <h1 class="text-center my-5"> Welcome to GRUPO PIEROLA ROMANIA </h1>
+    <p class="text-center my-5">Our products are avaible only for persons over <strong>18</strong> years old</p>
+    <p class="text-center"> Please enter your birthday to continue </p>
+        <form method="POST" action="">
+            {% csrf_token %}
+            <div class="container">
+                <div class="row justify-content-center">
+                    <div class="col-3">{{form}}</div>
+                </div>
+                <div class="row justify-content-center my-2">
+                    <div class="col-2 btn">
+                        <button type="submit">Check</button>
+                    </div>
+                    <div class="col-2 btn">
+                        <a href="/accounts/signup">Sign Up</a>
+                    </div>
+                </div>
+            </div>
+        </form>
+    {% endblock %}

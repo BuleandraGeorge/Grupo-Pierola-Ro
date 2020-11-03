@@ -4,7 +4,7 @@ from django.db import models
 from django.db import models
 
 
-class colors(models.Model):
+class color(models.Model):
     name = models.CharField(max_length=254)
 
     def __str__(self):
@@ -12,6 +12,9 @@ class colors(models.Model):
 
 
 class grape_variety(models.Model):
+    class Meta:
+        verbose_name_plural = 'Grape Varieties'
+
     name = models.CharField(max_length=254)
     friendly_name = models.CharField(max_length=254, null=True, blank=True)
 
@@ -45,7 +48,7 @@ class size(models.Model):
 
 class product(models.Model):
     name = models.CharField(max_length=254, null=False, blank=False)
-    color = models.ForeignKey('colors', null=True, blank=True, on_delete=models.SET_NULL)
+    color = models.ForeignKey('color', null=True, blank=True, on_delete=models.SET_NULL)
     grape_variety = models.ForeignKey('grape_variety', null=True, blank=True, on_delete=models.SET_NULL)
     region = models.ForeignKey('region', null=True, blank=True, on_delete=models.SET_NULL)
     vinification = models.TextField(max_length=3000, null=True, blank=True)

@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block extra_title %} Products {% endblock %}
+
+{% block content %}
+
+    <div class="row">
+        <div class="col-auto">
+            {{ products }}
+        </div>
+    </div>
+
+{% endblock %}

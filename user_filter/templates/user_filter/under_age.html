@@ -1,6 +1,8 @@
 {% extends "base.html" %}
 {% load static %}
-
+<head>
+        <title>{% block extra_title %} Under 18 {% endblock %}</title>
+    </head>
 {% block content %}
     <h1 class="text-success display-4">Products are avaible for persons over 18 years old</h1>
     <a href="{% url 'checkage' %}">Back to landing page</a>

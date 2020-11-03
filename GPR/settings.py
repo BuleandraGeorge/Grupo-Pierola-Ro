@@ -45,6 +45,7 @@ INSTALLED_APPS = [
     'allauth.socialaccount.providers.google',
     'home',
     'user_filter',
+    'products',
 ]
 
 MIDDLEWARE = [
@@ -108,6 +109,9 @@ ACCOUNT_UNIQUE_EMAIL = True
 LOGIN_URL = '/accounts/login/'
 LOGIN_REDIRECT_URL = '/'
 
+ACCOUNT_FORMS = {
+        'signup': 'user_filter.forms.CustomForm'
+    }
 
 # Database
 # https://docs.djangoproject.com/en/3.1/ref/settings/#databases
@@ -157,3 +161,7 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.1/howto/static-files/
 
 STATIC_URL = '/static/'
+STATICFILES_DIRS = (os.path.join(BASE_DIR, 'static'),)
+
+MEDIA_URL = '/media/'
+os.path.join(BASE_DIR, 'media')

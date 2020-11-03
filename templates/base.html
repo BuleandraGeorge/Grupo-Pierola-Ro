@@ -8,6 +8,7 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
     <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tempusdominus-bootstrap-4/5.1.2/css/tempusdominus-bootstrap-4.min.css" integrity="sha256-XPTBwC3SBoWHSmKasAk01c08M6sIA5gF5+sRxqak2Qs=" crossorigin="anonymous" />
+    <script src="https://kit.fontawesome.com/8e8a0aa5cf.js" crossorigin="anonymous"></script>
     <link rel="stylesheet" type="text/css" href="{% static 'css/base.css' %}">
     {% block extracss%}
     {% endblock %}
@@ -20,13 +21,78 @@
     {% block extrajs%}
     {% endblock %}
 
-    <title>GRP</title>
+    <title>GRP {% block extra_title %}{% endblock %}</title>
   </head>
   <body>
     <header class="container-fluid top-fixed" >
-
-        <h1>Grupo Pierola Romania</h1>
-
+        <div class="row">
+            <div class="col-auto mr-auto mt-3">
+                <a href="{% url 'home' %}" class="text-reset text-decoration-none">
+                    <h1 class="brand">Grupo Pierola Romania</h1>
+                </a>
+            </div>
+            {% if request.user.is_authentificated or request.session.age > 17 %}
+            <!-- The search bar is avaible only after the age is checked or the user is logged in-->
+            <div class="col-4 mt-3">
+                <form method="GET" action="">
+                    <div class="input-group input-group-sm">
+                        <input class="form-control" name="q" type="text">
+                        <div class="input-group-append">
+                            <button class="form-control btn" type="submit">
+                                <span>
+                                    <i class="fas fa-search"></i>
+                                </span>
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            {% endif %}
+            <div class="col-auto ml-auto mt-2">
+                <ul>
+                    {% if request.user.is_authentificated or request.session.age > 17 %}
+                    <!-- The bag link is avaible only after the age is checked or he user is logged in-->
+                    <li class="list-inline-item px-2">
+                        <a class="text-info nav-link" href="#">
+                            <div class="text-center ">
+                                <p class="d-inline mb-0">
+                                    {% if total%}
+                                        {{total|floatformat:2}}
+                                    {%else%}
+                                        0.00
+                                    {%endif%}
+                                </p>
+                                <div class="d-inline"><i class="fas fa-shopping-cart"></i></div>
+                            </div>
+                        </a>
+                    </li>
+                    {% endif %}
+                    <li class="list-inline-item">
+                        <div class="dropdown">
+                            <a class="btn dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                My Account
+                            </a>
+                            <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                                {% if request.user.is_authentificated %}
+                                    {% if request.user.is_superuser%}
+                                        <!-- if the user logged in is super user the product management link is availble-->
+                                        <a class="dropdown-item" href="#">Product Management</a>
+                                    {% else %}
+                                     <!-- if the user logged in is a random user button for my profile and loggout are avaible-->
+                                        <a class="dropdown-item" href="#">My Profile</a>
+                                        <a class="dropdown-item" href="{% url 'account_logout' %}">Log out</a>
+                                    {% endif%}
+                                {% else %}
+                                    <!-- for other users, the links for login and sign up are avaible-->
+                                    <a class="dropdown-item" href="{% url 'account_signup' %}">Log In</a>
+                                    <a class="dropdown-item" href="{% url 'account_login' %}">Sign Up</a>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
     </header>
     <body>
         {% block content %}

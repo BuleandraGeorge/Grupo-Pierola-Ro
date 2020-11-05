@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block extra_title %} Products {% endblock %}
+{% block extra_header%}
+{% endblock %}
+
+{% block content %}
+<div class="container-fluid pt-4">
+    <div class="row">
+        <div class="col-6">
+            <img src="/media/{{product.image}}">
+        </div>
+        <div class="col-6">
+        <p>
+            {{product.name}}  
+        </p>
+        <p>{{product.region}}</p>
+        <p>{{product.grape_variety}}</p>
+        <p>{{product.vinification}}</p>
+        <p>{{product.ageing}}</p>
+        <p>{{product.palate}}</p>
+        <p>{{product.color_details}}</p>
+        <p>{{product.aroma}}</p>
+        <p>{{product.region}}</p>
+        <p>{{product.service}}</p>
+        <p>{{product.rating}}</p>
+        <p>{{product.size}}</p>
+        <p>{{product.box}}</p>
+
+
+        </div>
+    </div>
+</div>
+    
+
+{% endblock %}

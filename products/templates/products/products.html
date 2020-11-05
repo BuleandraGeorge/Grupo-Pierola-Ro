@@ -2,13 +2,53 @@
 {% load static %}
 
 {% block extra_title %} Products {% endblock %}
-
-{% block content %}
-
+{% block extra_header%}
     <div class="row">
         <div class="col-auto">
-            {{ products }}
+            <h1>Wines {% block extra_name %} {% endblock %}</h1>
         </div>
     </div>
+{% endblock %}
+
+{% block content %}
+<div class="container-fluid pt-4">
+    <div class="row">
+    {% for product in products %}
+        <div class="col-3">
+            <div class="card ">
+                <a href="{% url 'product_details' product.id %}" class="card-img">
+                    <img src="/media/{{product.image}}" class="card-img-top img-card" alt="{{product.name}}" height="100%">
+                </a>
+                <div class="card-body">
+                    <h5 class="card-title text-truncate ">{{product.name}}</h5>
+                    <p class="card-text">
+                    <div class="container-fluid">
+                        <div class="row">
+                            <div class="col-12">{{product.region}}</div>
+                            <div class="col-12">{{product.grape_variety}}</div>
+                            <div class="col-12">{{product.price}}</div>
+                            <div class="col-12">
+                                {% if product.rating %}
+                                {{product.rating}}
+                                {% else %}
+                                <span class="text-muted">No rated yet</span>
+                                {% endif %}
+                            </div>
+                            <div class="col-12">
+                                <form method="GET" action="#">
+                                <input type="range" min="0" max="{{product.quantity_available}}">
+                                <button href="#" class="btn btn-primary">Buy</button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                    </p> 
+                </div>
+            </div>
+        </div>
+    {% endfor %}
+    </div>
+</div>
+    
 
 {% endblock %}

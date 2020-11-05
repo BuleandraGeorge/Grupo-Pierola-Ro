@@ -1,6 +1,23 @@
 @import url('https://fonts.googleapis.com/css2?family=MuseoModerno:wght@700&display=swap');
 .brand{
-    color:red;
+    color:#900020;
     font-size:2rem;
     font-family: 'MuseoModerno', cursive;
+}
+.second-nav{
+    font-size: 0.3rem !important;
+    background-color: #900020;
+    color:white;
+}
+header{
+    background-color: white;
+}
+body{
+    margin-top:10rem;
+}
+.icon{
+    color:#900020;
+}
+.card-img{
+    height: 20rem;
 }

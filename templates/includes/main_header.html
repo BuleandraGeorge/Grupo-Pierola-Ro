@@ -13,10 +13,10 @@
                 <span>Wines</span>
             </a>
             <div class="dropdown-menu border-0" aria-labelledby="all-products-link">
-                <a href="#" class="dropdown-item">All</a>
-                <a href="" class="dropdown-item ">Red</a>
-                <a href="" class="dropdown-item ">Rose</a>
-                <a href="" class="dropdown-item">White</a>
+                <a href="{% url 'products' %}" class="dropdown-item">All</a>
+                <a href="{% url 'products' %}?color=red" class="dropdown-item ">Red</a>
+                <a href="{% url 'products' %}?color=rose" class="dropdown-item ">Rose</a>
+                <a href="{% url 'products' %}?color=white" class="dropdown-item">White</a>
             </div>
         </li>
         <li class="nav-item">

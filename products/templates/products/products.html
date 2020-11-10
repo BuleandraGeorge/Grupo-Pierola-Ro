@@ -6,8 +6,83 @@
     <div class="row">
         <div class="col-auto">
             <h1>Wines {% block extra_name %} {% endblock %}</h1>
+             
         </div>
-    </div>
+        <div class="col-auto">
+            <select id="color-selector" class="custom-select custom-select-sm rounded-0 border border-{% if current_sorting != 'None_None' %}info{% else %}black{% endif %}">
+                {% if color_search == None %}
+                        <option value="None" selected >All Colors</option>
+                    {% else %}
+                        <option value="None">All Colors</option>
+                    {% endif %}
+                {% for color in colors %}
+                    {% if color_search == color.name %}
+                        <option value="{{color.name}}" selected>{{color.friendly_name}}</option>
+                    {% else %}
+                        <option value="{{color.name}}">{{color.friendly_name}}</option>
+                    {% endif %}
+                {% endfor %}
+            </select>
+        </div>
+        <div class="col-auto">
+            <select id="region-selector" class="custom-select custom-select-sm rounded-0 border border-{% if current_sorting != 'None_None' %}info{% else %}black{% endif %}">
+                {% if region_search == None %}
+                        <option value="None" selected >All Regions</option>
+                    {% else %}
+                        <option value="None">All Regions</option>
+                    {% endif %}
+                {% for region in regions %}
+                    {% if region_search == region.name %}
+                        <option value="{{region.name}}" selected>{{region.friendly_name}}</option>
+                    {% else %}
+                        <option value="{{region.name}}">{{region.friendly_name}}</option>
+                    {% endif %}
+                {% endfor %}
+            </select>
+        </div>
+        <div class="col-auto">
+            <select id="grape-selector" class="custom-select custom-select-sm rounded-0 border border-{% if current_sorting != 'None_None' %}info{% else %}black{% endif %}">
+                {% if grape_search == None %}
+                        <option value="None" selected >All Grapes</option>
+                {% else %}
+                        <option value="None">All Grapes</option>
+                {% endif %}
+                {% for grape in grapes %}
+                    {% if grape_search == grape.name %}
+                        <option value="{{grape.name}}" selected>{{grape.friendly_name}}</option>
+                    {% else %}
+                        <option value="{{grape.name}}">{{grape.friendly_name}}</option>
+                    {% endif %}
+                {% endfor %}
+            </select>
+        </div>
+        <div class="col-auto">
+            <select id="other-selector" class="custom-select custom-select-sm rounded-0 border border-{% if current_sorting != 'None_None' %}info{% else %}black{% endif %}">
+                {% if sort == "price" %}
+                    {% if direction == "asc" %}
+                        <option value="price_asc" selected>Price (low to high)</option>
+                    {% else %}
+                        <option value="price_desc" selected>Price (high to low)</option>
+                    {% endif %}
+                {% elif sort ==  "rating" %}
+                    {% if direction == "asc" %}
+                        <option value="rating_asc" selected>Rating (high to low)</option>
+                    {% else %}
+                        <option value="rating_desc" selected>Rating (high to low)</option>
+                    {% endif %}
+                {% else  %}
+                    <option value="None" selected>Sort by None</option>
+                {% endif %}
+                <option value="None">Sort by None</option>
+                <option value="price_asc" >Price (low to high)</option>
+                <option value="price_desc">Price (high to low)</option>
+                <option value="rating_asc">Rating (low to high)</option>
+                <option value="rating_desc">Rating (high to low)</option>
+            </select>
+            <div class="col-auto">
+                <button class="btn" id="sort-button">Search</button>
+            </div>
+        </div>
 {% endblock %}
 
 {% block content %}
@@ -24,8 +99,8 @@
                     <p class="card-text">
                     <div class="container-fluid">
                         <div class="row">
-                            <div class="col-12">{{product.region}}</div>
-                            <div class="col-12">{{product.grape_variety}}</div>
+                            <div class="col-12"><a href="{% url 'products' %}?region={{product.region.name}}">{{product.region.friendly_name}}</a></div>
+                            <div class="col-12"><a href="{% url 'products' %}?grape={{product.grape_variety.name}}">{{product.grape_variety.friendly_name}}</a></div>
                             <div class="col-12">{{product.price}}</div>
                             <div class="col-12">
                                 {% if product.rating %}
@@ -37,7 +112,7 @@
                             <div class="col-12">
                                 <form method="GET" action="#">
                                 <input type="range" min="0" max="{{product.quantity_available}}">
-                                <button href="#" class="btn btn-primary">Buy</button>
+                                <button  class="btn btn-primary">Buy</button>
                                 </form>
                             </div>
                         </div>
@@ -48,7 +123,57 @@
         </div>
     {% endfor %}
     </div>
+    <div class="btt-button shadow-sm rounded-0 border border-black">
+            <a class="btt-link d-flex h-100">
+                <i class="fas fa-arrow-up text-black mx-auto my-auto"></i>
+            </a>	
+        </div>
+    </div>
 </div>
-    
-
+{% endblock %}
+{% block postloadjs %}
+    {{block.super}}
+    <script type="text/javascript">
+		$('.btt-link').click(function(e) {
+			window.scrollTo(0,0)
+		})
+	</script>
+<script type="text/javascript">
+    $('#sort-button').click(function(e){
+        var color_selector = $('#color-selector');
+        var region_selector = $('#region-selector');
+        var grape_selector = $('#grape-selector');
+        var other_selector = $('#other-selector');
+        var currentURL = new URL(window.location);
+        var selectedColor = color_selector.val();
+        var selectedRegion = region_selector.val();
+        var seletedGrape = grape_selector.val();
+        var selectedOther = other_selector.val();
+        if (selectedColor!="None"){
+            currentURL.searchParams.set("color",selectedColor);
+        }else{
+            currentURL.searchParams.delete("color");
+        }
+        if (selectedRegion!="None"){
+            currentURL.searchParams.set("region",selectedRegion);
+        }else{
+            currentURL.searchParams.delete("region");
+        }
+        if (seletedGrape!="None"){
+            currentURL.searchParams.set("grape",seletedGrape);
+        }else{
+            currentURL.searchParams.delete("grape");
+        }
+        if (selectedOther!='None'){
+            var sort = selectedOther.split("_")[0];
+            var direction = selectedOther.split("_")[1];
+            currentURL.searchParams.set("sort",sort);
+            currentURL.searchParams.set("direction",direction);
+        }else{
+            currentURL.searchParams.delete("sort");
+            currentURL.searchParams.delete("direction");
+        }
+        window.location.replace(currentURL);
+    });
+</script>
 {% endblock %}

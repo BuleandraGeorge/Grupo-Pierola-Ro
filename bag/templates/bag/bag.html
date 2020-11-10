@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+{% load static %}
+<head>
+        <title>{% block extra_title %} Bag {% endblock %}</title>
+    </head>
+    {% block extra_header%}
+    <div class="row">
+                <div class="col-auto ml-5">
+                    <h2>Shopping Bag</h2>
+                </div>
+    </div>
+    {% endblock %}
+{% block content %}
+    <div class="container">
+        <div class="row">
+            <div class="col-6">
+                <div class="row">
+                    {% if bag_items %}
+                        {% for item in bag_items %}
+                            <div class="col-12">
+                                {{item}}
+                            </div>
+                        {% endfor%}
+                    {% else %}
+                        <div class="col-12 text-center">
+                            <a href="{% url 'products' %}"> Start Shopping </a>
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+            <div class="col-6">
+            </div>
+        </div>
+    </div>
+{% endblock %}

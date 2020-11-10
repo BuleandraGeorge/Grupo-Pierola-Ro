@@ -54,7 +54,7 @@
                     {% if request.user.is_authentificated or request.session.age > 17 %}
                     <!-- The bag link is avaible only after the age is checked or he user is logged in-->
                     <li class="list-inline-item px-2 ">
-                        <a class="text-info nav-link" href="#">
+                        <a class="text-info nav-link" href="{% url 'bag' %}">
                             <div class="text-center icon">
                                 <p class="d-inline mb-0">
                                     {% if total%}

@@ -3,11 +3,12 @@
 
 {% block extra_title %} Products {% endblock %}
 {% block extra_header%}
-    <div class="row">
+    <div class="row justify-content-center">
         <div class="col-auto">
-            <h1>Wines {% block extra_name %} {% endblock %}</h1>
-             
+            <h2>Wines</h2>
         </div>
+    </div>
+    <div class="row justify-content-center">
         <div class="col-auto">
             <select id="color-selector" class="custom-select custom-select-sm rounded-0 border border-{% if current_sorting != 'None_None' %}info{% else %}black{% endif %}">
                 {% if color_search == None %}
@@ -79,10 +80,10 @@
                 <option value="rating_asc">Rating (low to high)</option>
                 <option value="rating_desc">Rating (high to low)</option>
             </select>
-            <div class="col-auto">
-                <button class="btn" id="sort-button">Search</button>
-            </div>
         </div>
+        <div class="col-auto">
+                <button class="btn btn-danger" id="sort-button">Search</button>
+            </div>
 {% endblock %}
 
 {% block content %}

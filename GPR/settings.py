@@ -46,6 +46,7 @@ INSTALLED_APPS = [
     'home',
     'user_filter',
     'products',
+    'bag',
 ]
 
 MIDDLEWARE = [

@@ -111,9 +111,11 @@
                                 {% endif %}
                             </div>
                             <div class="col-12">
-                                <form method="GET" action="#">
-                                <input type="range" min="0" max="{{product.quantity_available}}">
-                                <button  class="btn btn-primary">Buy</button>
+                                <form method="POST" action="{% url 'add_to_bag' product.id %}">
+                                    {% csrf_token %}
+                                    <input type="number" value="1" min="1" max="{{product.quantity_available}}" name="quantity" data_item-id="{{product.id}}" id="id_qty{{product.id}}">
+                                    <input type="submit" class="btn btn-primary" value="Add to Bag">
+                                    <input type="hidden" name="redirect_url" value="{{ request.path }}">
                                 </form>
                             </div>
                         </div>

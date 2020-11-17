@@ -1,7 +1,7 @@
 from django.shortcuts import render, get_object_or_404, reverse, redirect
 from django.contrib import messages
 from django.db.models import Q
-from .models import product, color, grape_variety, region
+from .models import product, color, grape_variety, region, size
 
 # Create your views here.
 
@@ -11,6 +11,7 @@ def products(request):
     colors = color.objects.all()
     grapes = grape_variety.objects.all()
     regions = region.objects.all()
+    sizes = size.objects.all()
 
     query = None
     color_search = None
@@ -47,7 +48,7 @@ def products(request):
                 return redirect(reverse('products'))
             queries = Q(name__icontains=query) | Q(palate__icontains=query)
             products = products.filter(queries)
-
+    print(products)
     context = {
         "products": products,
         "search-term": query,
@@ -59,6 +60,7 @@ def products(request):
         "grape_search": grape_search,
         "sort": sort,
         "direction": direction,
+        "sizes": sizes,
 
     }
     return render(request, 'products/products.html', context)

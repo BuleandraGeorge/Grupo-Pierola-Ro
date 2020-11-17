@@ -18,6 +18,10 @@ body{
 .icon{
     color:#900020;
 }
-.card-img{
-    height: 20rem;
+.bg-bordeaux{
+    background-color: #900020;
+    color:white;
+}
+.border-bordeaux{
+    border:1px solid #900020;
 }

@@ -1,5 +1,5 @@
 {% if request.user.is_authentificated or request.session.age > 17 %}
-<div class="collapse navbar-collapse second-nav" id="main-nav">
+<div class="collapse navbar-collapse" id="main-nav">
     <ul class="navbar-nav w-auto mx-auto">
         <li class="nav-item">
             <a class="text-reset text-decoration-none btn " href="{% url 'home' %}" id="home" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">

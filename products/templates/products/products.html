@@ -7,8 +7,6 @@
         <div class="col-auto">
             <h2>Wines</h2>
         </div>
-    </div>
-    <div class="row justify-content-center">
         <div class="col-auto">
             <select id="color-selector" class="custom-select custom-select-sm rounded-0 border border-{% if current_sorting != 'None_None' %}info{% else %}black{% endif %}">
                 {% if color_search == None %}
@@ -87,17 +85,23 @@
 {% endblock %}
 
 {% block content %}
-<div class="container-fluid pt-4">
+<div class="container-fluid pt-4 mx-2">
     <div class="row">
     {% for product in products %}
-        <div class="col-3">
-            <div class="card ">
-                <a href="{% url 'product_details' product.id %}" class="card-img">
-                    <img src="/media/{{product.image}}" class="card-img-top img-card" alt="{{product.name}}" height="100%">
+        <div class="col-3" >
+            <div class="card border-bordeaux">
+                <a href="{% url 'product_details' product.id %}">
+                    <div class="container-fluid">
+                        <div class="row">
+                            <div class="col-auto mx-auto">
+                                <img  src="/media/{{product.image}}" class="card-img-top img-fluid" style="max-height:15rem; max-width:6rem;"  alt="{{product.name}}">
+                            </div>
+                        </div>
+                    </div>
                 </a>
-                <div class="card-body">
+                <div class="card-body bg-bordeaux">
                     <h5 class="card-title text-truncate ">{{product.name}}</h5>
-                    <p class="card-text">
+                    <p class="card-text ">
                     <div class="container-fluid">
                         <div class="row">
                             <div class="col-12"><a href="{% url 'products' %}?region={{product.region.name}}">{{product.region.friendly_name}}</a></div>
@@ -110,14 +114,40 @@
                                 <span class="text-muted">No rated yet</span>
                                 {% endif %}
                             </div>
-                            <div class="col-12">
-                                <form method="POST" action="{% url 'add_to_bag' product.id %}">
-                                    {% csrf_token %}
-                                    <input type="number" value="1" min="1" max="{{product.quantity_available}}" name="quantity" data_item-id="{{product.id}}" id="id_qty{{product.id}}">
-                                    <input type="submit" class="btn btn-primary" value="Add to Bag">
+                            <form method="POST" action="{% url 'add_to_bag' product.id %}">
+                                {% csrf_token %}
+                                <div class="col-12">
+                                <span>Size:</span>
+                                 <select name="item_size">
+                                {% with product.size.all as sizes %}
+                                    {% for size in sizes %}
+                                        <option value="{{size}}">{{size}}</option>
+                                    {% endfor %}
+                                {% endwith %}
+                                </select>
+                                </div>
+                                <div class="col-12 px-0 mt-1">
+                                    <div class="form-group">
+                                        <div class="input-group">
+                                            <div class="input-group-preppend ">
+                                                <button class="decrement-qty btn btn-primary rounded-0" 
+                                                data-item_id="{{ product.id }}" id="decrement-qty_{{ product.id }}">
+                                                        <i class="fas fa-minus"></i>
+                                                </button>
+                                            </div>
+                                            <input class="form-control qty-input" type="number" value="1" min="1" max="{{product.quantity_available}}" name="quantity" data_item-id="{{product.id}}" id="id_qty_{{product.id}}">
+                                            <div class="input-group-append mr-1">
+                                                <button class="increment-qty btn btn-primary rounded-0" 
+                                                data-item_id="{{ product.id }}" id="increment-qty_{{ product.id }}">
+                                                        <i class="fas fa-plus"></i>
+                                                </button>
+                                            </div>
+                                            <input type="submit" class="btn btn-primary" value="Add to Bag">
+                                        </div>
+                                    </div>
                                     <input type="hidden" name="redirect_url" value="{{ request.path }}">
-                                </form>
-                            </div>
+                                </div>
+                            </form>
                         </div>
                     </div>
                     </p> 
@@ -136,6 +166,7 @@
 {% endblock %}
 {% block postloadjs %}
     {{block.super}}
+    {% include 'products/includes/quantity_input_script.html' %}
     <script type="text/javascript">
 		$('.btt-link').click(function(e) {
 			window.scrollTo(0,0)

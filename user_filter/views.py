@@ -8,6 +8,7 @@ from .forms import Age
 
 today = date.today()
 
+
 def AgeCalc(b_year, b_month, b_day):
     if b_month < today.month:
         age = today.year - b_year - 1
@@ -49,7 +50,8 @@ def check_age(request):
         form = Age()
         context = {
             'form': form
-        }
+            }
+
         return render(request, 'user_filter/check_age.html', context)
 
 

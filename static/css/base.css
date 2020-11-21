@@ -25,3 +25,9 @@ body{
 .border-bordeaux{
     border:1px solid #900020;
 }
+.message-container{
+    position: fixed;
+    top:100px;
+    right:30px;
+    z-index: 999999999;
+}

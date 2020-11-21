@@ -105,11 +105,29 @@
         {% block extra_header %}
         {% endblock%}
     </header>
-    <body>
+    {% if messages %}
+        <div class="message-container">
+            {% for message in messages %}
+                {% with message.level as lvl %}
+                    {% if lvl == 40 %}
+                        {% include 'includes/toasts/error.html' %}
+                    {% elif  lvl == 30 %}
+                        {% include 'includes/toasts/warning.html' %}
+                    {% elif lvl == 25 %}
+                        {% include 'includes/toasts/success.html' %}
+                    {% else %}
+                        {% include 'includes/toasts/info.html' %}
+                    {% endif %}
+                {% endwith %}
+            {% endfor %}
+        </div>
+    {% endif %}
         {% block content %}
         {% endblock %}
-    </body>
   </body>
   {% block postloadjs %}
+  <script type="text/javascript">
+    $('.toast').toast('show');
+  </script>
   {% endblock %}
 </html>

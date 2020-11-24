@@ -29,7 +29,7 @@
                         {% for item in bag_items %}
                             <tr>
                                 <td class="p-3">
-                                    <img src="/media/{{item.product.image}}" style="max-height:7rem; max-width:3rem;">
+                                    <img class="w-100" src="{{MEDIA_URL}}{{item.product.image}}" style="max-height:7rem; max-width:3rem;">
                                 </td>
                                 <td class="p-3">
                                     <h6>{{item.product.name}}</h6>

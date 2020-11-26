@@ -30,8 +30,8 @@
                         {{order_form.street_address1 | as_crispy_field}}
                         {{order_form.street_address2 | as_crispy_field}}
                         {{order_form.town_or_city| as_crispy_field}}
-                        {{order_form.country| as_crispy_field}}
                         {{order_form.postcode| as_crispy_field}}
+                        {{order_form.country| as_crispy_field}}
                         <div class="check-form form-check-inline float-right">
                             {% if user.is_authenticated %}
                                 <label class="form-check-label" for="save_details">

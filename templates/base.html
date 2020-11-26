@@ -80,7 +80,7 @@
                                         <a class="dropdown-item" href="#">Product Management</a>
                                     {% else %}
                                      <!-- if the user logged in is a random user button for my profile and loggout are avaible-->
-                                        <a class="dropdown-item" href="#">My Profile</a>
+                                        <a class="dropdown-item" href="{% url 'profile_view' %}">My Profile</a>
                                         <a class="dropdown-item" href="{% url 'account_logout' %}">Log out</a>
                                     {% endif%}
                                 {% else %}

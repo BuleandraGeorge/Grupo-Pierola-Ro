@@ -32,7 +32,7 @@
                     <h1 class="brand">Grupo Pierola Romania</h1>
                 </a>
             </div>
-            {% if request.user.is_authentificated or request.session.age > 17 %}
+            {% if user.is_authenticated or request.session.age > 17 %}
             <!-- The search bar is avaible only after the age is checked or the user is logged in-->
             <div class="col-4 mt-3">
                 <form method="GET" action="{% url 'products' %}">
@@ -51,7 +51,7 @@
             {% endif %}
             <div class="col-auto ml-auto mt-2">
                 <ul>
-                    {% if request.user.is_authentificated or request.session.age > 17 %}
+                    {% if user.is_authenticated or request.session.age > 17 %}
                     <!-- The bag link is avaible only after the age is checked or he user is logged in-->
                     <li class="list-inline-item px-2 ">
                         <a class="text-info nav-link" href="{% url 'bag' %}">
@@ -74,8 +74,8 @@
                                 My Account
                             </a>
                             <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-                                {% if request.user.is_authentificated %}
-                                    {% if request.user.is_superuser%}
+                                {% if user.is_authenticated %}
+                                    {% if user.is_superuser %}
                                         <!-- if the user logged in is super user the product management link is availble-->
                                         <a class="dropdown-item" href="#">Product Management</a>
                                     {% else %}

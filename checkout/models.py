@@ -1,7 +1,7 @@
 import uuid
 from django.db import models
 from django.db.models import Sum
-from django.conf import settings
+from django_countries.fields import CountryField
 from products.models import product, size
 
 
@@ -14,16 +14,17 @@ class order(models.Model):
     street_address1 = models.CharField(max_length=254, null=False, blank=False)
     street_address2 = models.CharField(max_length=254, null=True, blank=True)
     town_or_city = models.CharField(max_length=254, null=False, blank=False)
-    country = models.CharField(max_length=254, null=False, blank=False)
+    country = CountryField()
     postcode = models.CharField(max_length=40, null=False, blank=False)
     date = models.DateField(auto_now_add=True)
     total = models.DecimalField(max_digits=10, decimal_places=2, null=False, default=0)
+    stripe_pid = models.CharField(max_length=254, blank=False, null=False, default='')
 
     def _generate_order_number(self):
         return uuid.uuid4().hex.upper()
-    
+
     def update_total(self):
-        self.total = self.orderLineItem.order.aggregate(Sum('line_total'))['line_total__sum']
+        self.total = self.lineitem.aggregate(Sum('line_total'))['line_total__sum'] or 0
         self.save()
 
     def save(self, *args, **kwargs):
@@ -34,8 +35,9 @@ class order(models.Model):
     def __str__(self):
         return self.order_number
 
+
 class orderLineItem(models.Model):
-    order = models.ForeignKey(order, null=False, blank=False, on_delete=models.CASCADE)
+    order = models.ForeignKey(order, null=False, blank=False, on_delete=models.CASCADE, related_name='lineitem')
     product = models.ForeignKey(product, null=False, blank=False, on_delete=models.CASCADE)
     product_size = models.ForeignKey(size, null=False, blank=False, on_delete=models.CASCADE)
     quantity = models.IntegerField(null=False, blank=False, default=0)

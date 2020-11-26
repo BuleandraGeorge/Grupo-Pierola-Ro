@@ -1,15 +1,15 @@
 from .models import order
 from django import forms
 
+
 class orderForm(forms.ModelForm):
     class Meta:
         model = order
         fields = {
-            'full_name', 'email', 'phone_number',
-            'street_address1','street_address1',
-            'town_or_city', 'postcode', 'country',  
+            'full_name', 'email', 'phone_number', 
+            'street_address1', 'street_address2', 
+            'town_or_city', 'postcode', 'country', 
         }
-
     def __init__(self, *args, **kwargs):
         """
         Add placeholders and classes, remove auto-generated
@@ -26,13 +26,13 @@ class orderForm(forms.ModelForm):
             'postcode': 'Postal Code',
             'country': 'Country',
         }
-
         self.fields['full_name'].widget.attrs['autofocus'] = True
         for field in self.fields:
             if self.fields[field].required:
-                placeholder = f'{placeholders[field]} *'
+               placeholder = f'{placeholders[field]} *'
             else:
                 placeholder = placeholders[field]
             self.fields[field].widget.attrs['placeholder'] = placeholder
             self.fields[field].widget.attrs['class'] = 'stripe-style-input'
             self.fields[field].label = False
+

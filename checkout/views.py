@@ -7,6 +7,8 @@ from products.models import product, size
 from .forms import orderForm
 from bag.contexts import bag_content
 from .models import orderLineItem, order
+from profiles.models import UserProfile
+from profiles.forms import UserProfileForm
 
 import stripe
 import json
@@ -96,7 +98,23 @@ def checkout_view(request):
             amount=total,
             currency=settings.STRIPE_CURRENCY,
         )
-        order_form = orderForm()
+        if request.user.is_authenticated:
+            try:
+                profile = UserProfile.objects.get(user=request.user)
+                order_form = orderForm(initial={
+                    'email': profile.user.email,
+                    'phone_number': profile.default_phone_number,
+                    'country': profile.default_country,
+                    'postcode': profile.default_postcode,
+                    'town_or_city': profile.default_town_or_city,
+                    'street_address1': profile.default_street_address1,
+                    'street_address2': profile.default_street_address2,
+                })
+            except UserProfile.DoesNotExist:
+                order_form = orderForm()
+        else:
+            order_form = orderForm()
+
         template = 'checkout/checkout.html'
         context = {
             'order_form': order_form,
@@ -108,7 +126,24 @@ def checkout_view(request):
 
 def checkout_success(request, order_number):
     Order = get_object_or_404(order, order_number=order_number)
-    save_info = request.session.get('save-info')
+    if request.user.is_authenticated:
+        save_info = request.session.get('save_info')
+        profile = UserProfile.objects.get(user=request.user)
+        Order.user_profile = profile
+        Order.save()
+        if save_info:
+            profile_data = {
+                'default_phone_number': Order.phone_number,
+                'default_country': Order.country,
+                'default_postcode': Order.postcode,
+                'default_town_or_city': Order.town_or_city,
+                'default_street_address1': Order.street_address1,
+                'default_street_address2': Order.street_address2,
+            }
+            user_profile_form = UserProfileForm(profile_data, instance=profile)
+            if user_profile_form.is_valid():
+                user_profile_form.save()
+
     messages.success(request, f'Order successfully processed! \
         Your order number is {order_number}. \
         An confirmations will send to {Order.email}')

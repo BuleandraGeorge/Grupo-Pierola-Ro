@@ -1,0 +1,19 @@
+Hello {{order.full_name}}!
+
+
+Thank you for your order at Grupo Pierola Romania.
+
+Your order informations is below:
+Order Number: {{order.order_number}}
+Order Date : {{order.date}}
+Order Total : {{order.total}}
+
+Your order will be shipped to {{order.street_address1}} {% if order.street_address2 != None %} {{street_address2}}{% endif %}, {{order.town_or_city}}, {{order.postcode}}, {{order.country}}.
+
+If you have any questions, contact as at {{contact_email}}.
+
+Thank you for your order!
+
+Kind regards,
+
+Grupo Pierola Romania

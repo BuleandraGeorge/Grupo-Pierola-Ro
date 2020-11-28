@@ -151,5 +151,12 @@
                 <p>{{order.total}} GBP</p>
             </div>
         </div>
+        {% if from_profile %}
+            <div class="row">
+                <div class="col-12">
+                    <a class="btn btn-dark rounded-0" href="{% url 'profile_view' %}"> Back to profile</a>
+                </div>
+            </div>
+        {% endif %}
     </div>
 {% endblock %}

@@ -1,4 +1,7 @@
 from django.http import HttpResponse
+from django.core.mail import send_mail
+from django.template.loader import render_to_string
+from django.conf import settings 
 from products.models import size, product
 from .models import order as Order
 from .models import orderLineItem
@@ -10,6 +13,23 @@ class StripeWH_Handler:
 
     def __init__(self, request):
         self.request = request
+
+    def _send_confirmation_email(self, order):
+        customer_email = order.mail
+        subject = render_to_string(
+            'checkout/confirmation_emails/confirmations_emails_subjects.txt',
+            {'order': order}
+        )
+        body = render_to_string(
+            'checkout/confirmation_emails/confirmations_emails_subjects.txt',
+            {'order': order, 'contact_email': settings.MAIN_EMAIL}
+        )
+        send_mail(
+            subject,
+            body,
+            settings.MAIN_EMAIL,
+            [customer_email]
+        )
 
     def handler_event(self, event):
         return HttpResponse(
@@ -44,6 +64,7 @@ class StripeWH_Handler:
                 attempt += 1
                 time.sleep(1)
         if order_exists:
+            self._send_confirmation_email(order)
             return HttpResponse(
                 content=f'Handled WebHook received: {event["type"]} SUCCESS: Verified order already in db', status=200)
         else:
@@ -76,6 +97,7 @@ class StripeWH_Handler:
                         order.delete()
                 return HttpResponse(content=f'Web hook received: {event["type"]} \
                         | ERROR: {e}', status=500)
+            self._send_confirmation_email(order)
         return HttpResponse(
                     content=f'Handled WebHook received: {event["type"]}\
                         | SUCCESS: Order created in webhook',

@@ -1,13 +1,15 @@
 from django import forms
 from .models import product, size, grape_variety, region, color
+from .widgets import CustomClearableFileInput
 
 
 class formProduct (forms.ModelForm):
 
     class Meta:
         model = product
-
         exclude =  {'total_quantity_sold'}
+
+    image = forms.ImageField(label='Image', required=False, widget=CustomClearableFileInput)
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)

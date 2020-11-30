@@ -3,6 +3,7 @@ from django.contrib import messages
 from django.db.models import Q
 from .models import product, color, grape_variety, region, size
 from .forms import formProduct
+from django.contrib.auth.decorators import login_required
 
 # Create your views here.
 
@@ -74,47 +75,60 @@ def product_details(request, product_id):
     }
     return render(request, 'products/product_details.html', context)
 
-
+@login_required
 def add_product(request):
-    if request.method == "POST":
-        form = formProduct(request.POST, request.FILES)
-        if form.is_valid():
-            form.save()
-            messages.success(request, f'Product {request.POST["name"]}  has been added.')
-            return redirect(reverse('add_product'))
-        else:
-            messages.error(request, 'Something is wrong with the form, please check and try again')
+    if not request.user.is_superuser:
+        messages.error(request, 'This option is available only for admin')
+        return redirect(reverse('home'))
     else:
-        form = formProduct
-    template = 'products/add_product.html'
-    context = {
-        'form': form
-    }
-    return render(request, template, context)
+        if request.method == "POST":
+            form = formProduct(request.POST, request.FILES)
+            if form.is_valid():
+                form.save()
+                messages.success(request, f'Product {request.POST["name"]}  has been added.')
+                return redirect(reverse('add_product'))
+            else:
+                messages.error(request, 'Something is wrong with the form, please check and try again')
+        else:
+            form = formProduct
+        template = 'products/add_product.html'
+        context = {
+            'form': form
+        }
+        return render(request, template, context)
 
-
+@login_required
 def edit_product(request, product_id):
-    product_for_edit = get_object_or_404(product, pk=product_id)
-    if request.method == "POST":
-        form = formProduct(request.POST, request.FILES, instance=product_for_edit)
-        if form.is_valid():
-            form.save()
-            messages.success(request, f'Product {request.POST["name"]} has been edited.')
-            return redirect(reverse('product_details', args=[product_for_edit.id]))
-        else:
-            messages.error(request, 'Something is wrong with the form, please check and try again')
+    if not request.user.is_superuser:
+        messages.error(request, 'This option is available only for admin')
+        return redirect(reverse('home'))
     else:
-        messages.info(request, f'You are eddinng product {product_for_edit.name}')
-        form = formProduct(instance=product_for_edit)
-    template = 'products/edit_product.html'
-    context = {
-        'form': form,
-        'product': product_for_edit
-    }
-    return render(request, template, context)
-
+        product_for_edit = get_object_or_404(product, pk=product_id)
+        if request.method == "POST":
+            form = formProduct(request.POST, request.FILES, instance=product_for_edit)
+            if form.is_valid():
+                form.save()
+                messages.success(request, f'Product {request.POST["name"]} has been edited.')
+                return redirect(reverse('product_details', args=[product_for_edit.id]))
+            else:
+                messages.error(request, 'Something is wrong with the form, please check and try again')
+        else:
+            messages.info(request, f'You are eddinng product {product_for_edit.name}')
+            form = formProduct(instance=product_for_edit)
+        template = 'products/edit_product.html'
+        context = {
+            'form': form,
+            'product': product_for_edit
+        }
+        return render(request, template, context)
+    
+@login_required
 def delete_product(request, product_id):
-    product_to_be_deleted = get_object_or_404(product, pk=product_id)
-    product_to_be_deleted.delete()
-    messages.success(request, f'Product {product_to_be_deleted} has been deleted!')
-    return redirect(reverse('products'))
+    if not request.user.is_superuser:
+        messages.error(request, 'This option is available only for admin')
+        return redirect(reverse('home'))
+    else:
+        product_to_be_deleted = get_object_or_404(product, pk=product_id)
+        product_to_be_deleted.delete()
+        messages.success(request, f'Product {product_to_be_deleted} has been deleted!')
+        return redirect(reverse('products'))

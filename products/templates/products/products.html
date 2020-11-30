@@ -94,7 +94,11 @@
                     <div class="container-fluid">
                         <div class="row">
                             <div class="col-auto mx-auto">
-                                <img  src="{{MEDIA_URL}}{{product.image}}" class="card-img-top img-fluid" style="max-height:15rem; max-width:6rem;"  alt="{{product.name}}">
+                                {% if product.image %}
+                                    <img  src="{{MEDIA_URL}}{{product.image}}" class="card-img-top img-fluid" style="max-height:15rem; max-width:6rem;"  alt="{{product.name}}">
+                                {% else %}
+                                    <img  src="{{MEDIA_URL}}no_image.png" class="card-img-top img-fluid" style="max-height:15rem; max-width:6rem;"  alt="{{product.name}}">
+                                {% endif %}
                             </div>
                         </div>
                     </div>
@@ -149,6 +153,16 @@
                                 </div>
                             </form>
                         </div>
+                        {% if user.is_superuser %}
+                            <div class="row">
+                                <div class="col-6">
+                                    <a href="{% url 'edit_product' product.id %}">Edit</a>
+                                </div>
+                                <div class="col-6">
+                                    <a href="{% url 'delete_product' product.id %}">Delete</a>
+                                </div>
+                            </div>
+                        {%endif %}
                     </div>
                     </p> 
                 </div>
@@ -156,7 +170,7 @@
         </div>
     {% endfor %}
     </div>
-    <div class="btt-button shadow-sm rounded-0 border border-black">
+    <div class="btn  shadow-sm rounded-0 border border-black">
             <a class="btt-link d-flex h-100">
                 <i class="fas fa-arrow-up text-black mx-auto my-auto"></i>
             </a>	

@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+{% load static %}
+<head>
+        <title>{% block extra_title %} Add Wine {% endblock %}</title>
+    </head>
+{% block content %}
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-12 col-md-6">
+                <h3>EDIT PRODUCT</h3>
+                <p class="text-muted"> Complete the form below to edit the product</p>
+                <hr>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-12 col-md-6">
+                <form method="POST" action="{% url 'edit_product' product.id %}" class="form" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    {{form|crispy}}
+                    <div class="text-right">
+                        <a class="btn btn-outline-danger rounded-0" href="{% url 'products' %}">See Products</a>
+                        <button class="btn btn-dark rounded-0" type="submit">UPDATE</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+{% endblock %}

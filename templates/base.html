@@ -77,7 +77,7 @@
                                 {% if user.is_authenticated %}
                                     {% if user.is_superuser %}
                                         <!-- if the user logged in is super user the product management link is availble-->
-                                        <a class="dropdown-item" href="#">Product Management</a>
+                                        <a class="dropdown-item" href="{% url 'add_product' %}">Product Management</a>
                                         <a class="dropdown-item" href="{% url 'account_logout' %}">Log out</a>
                                     {% else %}
                                      <!-- if the user logged in is a random user button for my profile and loggout are avaible-->

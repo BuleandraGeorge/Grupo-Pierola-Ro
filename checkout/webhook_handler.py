@@ -15,13 +15,13 @@ class StripeWH_Handler:
         self.request = request
 
     def _send_confirmation_email(self, order):
-        cust_email = order.mail
+        cust_email = order.email
         subject = render_to_string(
-            'checkout/confirmation_emails/confirmations_emails_subjects.txt',
+            'checkout/confirmation_emails/confirmation_emails_subject.txt',
             {'order': order}
         )
         body = render_to_string(
-            'checkout/confirmation_emails/confirmations_emails_subjects.txt',
+            'checkout/confirmation_emails/confirmation_emails_body.txt',
             {'order': order, 'contact_email': settings.DEFAULT_FROM_EMAIL}
         )
         send_mail(

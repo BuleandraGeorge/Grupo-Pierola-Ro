@@ -1,7 +1,8 @@
 from django.http import HttpResponse
 from django.core.mail import send_mail
 from django.template.loader import render_to_string
-from django.conf import settings 
+from django.conf import settings
+from profiles.models import UserProfile
 from products.models import size, product
 from .models import order as Order
 from .models import orderLineItem
@@ -45,6 +46,19 @@ class StripeWH_Handler:
         shipping = intent.shipping
         billing_details = intent.charges.data[0].billing_details
         total = round(intent.charges.data[0].amount / 100, 2)
+
+        profile = None
+        username = intent.metadata.username
+        if username != 'AnonymousUser':
+            profile = UserProfile.objects.get(user__username=username)
+            if save_info:
+                profile.default_phone_number = shipping.phone
+                profile.default_country = shipping.address.country
+                profile.default_postcode = shipping.address.postal_code
+                profile.default_town_or_city = shipping.address.city
+                profile.default_street_address1 = shipping.address.line1
+                profile.default_street_address2 = shipping.address.line2
+                profile.save()
 
         for field, value in shipping.address.items():
             if value == "":

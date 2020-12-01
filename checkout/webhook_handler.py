@@ -74,7 +74,6 @@ class StripeWH_Handler:
                 order_exists = True
                 break
             except Order.DoesNotExist:
-                order= Order.objects.all()
                 attempt += 1
                 time.sleep(1)
         if order_exists:

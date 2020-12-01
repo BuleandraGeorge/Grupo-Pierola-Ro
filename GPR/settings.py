@@ -201,7 +201,7 @@ MAIN_EMAIL = 'groupo_pierola_romania@email.com'
 if 'USE_AWS' in os.environ:
     AWS_STORAGE_BUCKET = 'grupo-pierola-ro' # name of the bucket
     AWS_S3_REGION = 'eu-west-2'
-    AWS_ACCESS_KEY = os.environ.get('AWS_ACCESS_KEY') # very importent sett it in the environ
+    AWS_ACCESS_KEY_ID = os.environ.get('AWS_ACCESS_KEY_ID') # very importent sett it in the environ
     AWS_SECRET_ACCESS_KEY = os.environ.get('AWS_SECRET_ACCESS_KEY') # very importent sett it in the environ
     AWS_S3_CUSTOM_DOMAIN = f'{AWS_STORAGE_BUCKET}.s3.amazonaws.com'
     # Static and media files

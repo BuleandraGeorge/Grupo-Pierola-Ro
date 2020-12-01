@@ -8,13 +8,10 @@ import datetime
 
 class color(models.Model):
     name = models.CharField(max_length=254, blank=True, null=True)
-    friendly_name = models.CharField(max_length=254, blank=True, null=True)
 
     def __str__(self):
         return self.name
 
-    def get_friendly_name(self):
-        return self.friendly_name
 
 
 class grape_variety(models.Model):
@@ -22,34 +19,24 @@ class grape_variety(models.Model):
         verbose_name_plural = 'Grape Varieties'
 
     name = models.CharField(max_length=254, blank=True, null=True)
-    friendly_name = models.CharField(max_length=254, null=True, blank=True)
 
     def __str__(self):
         return self.name
-
-    def get_friendly_name(self):
-        return self.friendly_name
 
 
 
 class region(models.Model):
     name = models.CharField(max_length=254, blank=True, null=True)
-    friendly_name = models.CharField(max_length=254, null=True, blank=True)
 
     def __str__(self):
         return self.name
 
-    def get_friendly_name(self):
-        return self.friendly_name
 
 
 class size(models.Model):
     name = models.CharField(max_length=254)
 
     def __str__(self):
-        return self.name
-
-    def get_friendly_name(self):
         return self.name
 
 
@@ -66,7 +53,7 @@ class product(models.Model):
     service = models.CharField(max_length=254,blank=True, null=True)
     price = models.DecimalField(max_digits=6, decimal_places=2, null=False, blank=False)
     rating = models.DecimalField(max_digits=2, decimal_places=1, null=True, blank=True)
-    size = models.ManyToManyField(size)
+    size = models.ManyToManyField(size, null=False, blank=False)
     box = models.CharField(max_length=254, null=True, blank=True)
     quantity_available = models.IntegerField(null=False, blank=False)
     total_quantity_sold = models.IntegerField(null=False, blank=False, default=0)

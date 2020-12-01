@@ -34,7 +34,6 @@ def products(request):
         if 'color' in request.GET:
             color_search = request.GET['color']
             products = products.filter(color__name=color_search)
-            print(color_search)
 
         if 'sort' in request.GET:
             sort = request.GET['sort']

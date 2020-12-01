@@ -10,6 +10,7 @@ class ProductAdmin(admin.ModelAdmin):
         'rating'
     )
     ordering = ('name',)
+    readonly_fields = ('total_quantity_sold',)
 
 
 admin.site.register(color)

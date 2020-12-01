@@ -16,9 +16,9 @@
                     {% endif %}
                 {% for color in colors %}
                     {% if color_search == color.name %}
-                        <option value="{{color.name}}" selected>{{color.friendly_name}}</option>
+                        <option value="{{color.name}}" selected>{{color.name}}</option>
                     {% else %}
-                        <option value="{{color.name}}">{{color.friendly_name}}</option>
+                        <option value="{{color.name}}">{{color.name}}</option>
                     {% endif %}
                 {% endfor %}
             </select>
@@ -32,9 +32,9 @@
                     {% endif %}
                 {% for region in regions %}
                     {% if region_search == region.name %}
-                        <option value="{{region.name}}" selected>{{region.friendly_name}}</option>
+                        <option value="{{region.name}}" selected>{{region.name}}</option>
                     {% else %}
-                        <option value="{{region.name}}">{{region.friendly_name}}</option>
+                        <option value="{{region.name}}">{{region.name}}</option>
                     {% endif %}
                 {% endfor %}
             </select>
@@ -48,9 +48,9 @@
                 {% endif %}
                 {% for grape in grapes %}
                     {% if grape_search == grape.name %}
-                        <option value="{{grape.name}}" selected>{{grape.friendly_name}}</option>
+                        <option value="{{grape.name}}" selected>{{grape.name}}</option>
                     {% else %}
-                        <option value="{{grape.name}}">{{grape.friendly_name}}</option>
+                        <option value="{{grape.name}}">{{grape.name}}</option>
                     {% endif %}
                 {% endfor %}
             </select>
@@ -81,100 +81,158 @@
         </div>
         <div class="col-auto">
                 <button class="btn btn-danger" id="sort-button">Search</button>
-            </div>
+        </div>
+    </div>
 {% endblock %}
 
 {% block content %}
 <div class="container-fluid pt-4 mx-2">
     <div class="row">
-    {% for product in products %}
-        <div class="col-3" >
-            <div class="card border-bordeaux">
-                <a href="{% url 'product_details' product.id %}">
-                    <div class="container-fluid">
+        {% for product in products %}
+            <div class="col-3" >
+                <div class="card rounded-0 border-0" style="width: 18rem;">
+                    <a class="mx-auto" href="{% url 'product_details' product.id %}">
+                        {% if product.image %}
+                            <img  src="{{MEDIA_URL}}{{product.image}}" class="card-img-top" style="max-height:15rem; max-width:5rem;" alt="{{product.name}}">
+                        {% else %}
+                            <img  src="{{MEDIA_URL}}no_image.png" class="card-img-top img-fluid" style="max-height:15rem; max-width:15rem;" alt="{{product.name}}">
+                        {% endif %}
+                    </a>
+                    <div class="card-body bg-bordeaux">
                         <div class="row">
-                            <div class="col-auto mx-auto">
-                                {% if product.image %}
-                                    <img  src="{{MEDIA_URL}}{{product.image}}" class="card-img-top img-fluid" style="max-height:15rem; max-width:6rem;"  alt="{{product.name}}">
-                                {% else %}
-                                    <img  src="{{MEDIA_URL}}no_image.png" class="card-img-top img-fluid" style="max-height:15rem; max-width:6rem;"  alt="{{product.name}}">
-                                {% endif %}
+                            <div class="col-12">
+                                <a class="text-reset text-decoration-none" href="{% url 'product_details' product.id %}">
+                                    <h5 class="card-title text-truncate text-center "><strong>{{product.name}}</strong></h5>
+                                </a>
                             </div>
                         </div>
-                    </div>
-                </a>
-                <div class="card-body bg-bordeaux">
-                    <h5 class="card-title text-truncate ">{{product.name}}</h5>
-                    <p class="card-text ">
-                    <div class="container-fluid">
                         <div class="row">
-                            <div class="col-12"><a href="{% url 'products' %}?region={{product.region.name}}">{{product.region.friendly_name}}</a></div>
-                            <div class="col-12"><a href="{% url 'products' %}?grape={{product.grape_variety.name}}">{{product.grape_variety.friendly_name}}</a></div>
-                            <div class="col-12">{{product.price}}</div>
                             <div class="col-12">
-                                {% if product.rating %}
-                                {{product.rating}}
-                                {% else %}
-                                <span class="text-muted">No rated yet</span>
-                                {% endif %}
-                            </div>
-                            <form method="POST" action="{% url 'add_to_bag' product.id %}">
-                                {% csrf_token %}
-                                <div class="col-12">
-                                <span>Size:</span>
-                                 <select name="item_size">
-                                {% with product.size.all as sizes %}
-                                    {% for size in sizes %}
-                                        <option value="{{size}}">{{size}}</option>
-                                    {% endfor %}
-                                {% endwith %}
-                                </select>
+                                <div class="row small">
+                                    <div class="col-6">
+                                        Grape Variety
+                                    </div>
+                                    <div class="col-6 text-right">
+                                        <a class=" text-reset text-decoration-none" href="{% url 'products' %}?grape={{product.grape_variety.name}}">
+                                            <strong>{{product.grape_variety.name}}</strong>
+                                        </a>
+                                    </div>
                                 </div>
-                                <div class="col-12 px-0 mt-1">
-                                    <div class="form-group">
-                                        <div class="input-group">
-                                            <div class="input-group-preppend ">
-                                                <button class="decrement-qty btn btn-primary rounded-0" 
-                                                data-item_id="{{ product.id }}" id="decrement-qty_{{ product.id }}">
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="row small">
+                                    <div class="col-6 ">
+                                        Region
+                                    </div>
+                                    <div class="col-6 text-right ">
+                                        <a class="text-reset text-decoration-none" href="{% url 'products' %}?region={{product.region.name}}">
+                                            <strong>{{product.region.name}}</strong>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="row small">
+                                    <div class="col-6">
+                                        Price
+                                    </div>
+                                    <div class="col-6 text-right ">
+                                        <strong> {{product.price}} GBP </strong>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="row small">
+                                    <div class="col-6 ">
+                                        Rating
+                                    </div>
+                                    <div class="col-6 text-right ">
+                                        {% if product.rating %}
+                                            <strong> {{product.rating}} </strong>
+                                        {% else %}
+                                            <strong>Not yet</strong>
+                                        {% endif %}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <hr>
+                        <div class="row">
+                            <div class="col-12">
+                                <form method="POST" action="{% url 'add_to_bag' product.id %}">
+                                    {% csrf_token %}
+                                    <div class="form-row mb-1">
+                                        <div class="col-6">
+                                            Size
+                                        </div>
+                                        <div class="col-6 ">
+                                            <select class="form-control form-control-sm" name="item_size">
+                                                {% with product.size.all as sizes %}
+                                                    {% for size in sizes %}
+                                                        <option value="{{size}}">{{ size }}</option>
+                                                    {% endfor %}
+                                                {% endwith %}
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="form-row mb-1">
+                                        <div class="col-6">
+                                            Quantity
+                                        </div>
+                                        <div class="col-6 input-group input-group-sm">
+                                            <div class="input-group-preppend">
+                                                <button class="decrement-qty btn btn-dark rounded-0 btn-sm" 
+                                                    data-item_id="{{ product.id }}" id="decrement-qty_{{ product.id }}">
                                                         <i class="fas fa-minus"></i>
                                                 </button>
                                             </div>
-                                            <input class="form-control qty-input" type="number" value="1" min="1" max="{{product.quantity_available}}" name="quantity" data_item-id="{{product.id}}" id="id_qty_{{product.id}}">
+                                            <input class="form-control qty-input" type="number" value="1" min="1" max="{{product.quantity_available}}"                   name="quantity" data_item-id="{{product.id}}" id="id_qty_{{product.id}}">
                                             <div class="input-group-append mr-1">
-                                                <button class="increment-qty btn btn-primary rounded-0" 
-                                                data-item_id="{{ product.id }}" id="increment-qty_{{ product.id }}">
-                                                        <i class="fas fa-plus"></i>
+                                                <button class="increment-qty btn btn-dark rounded-0 btn-sm" 
+                                                    data-item_id="{{ product.id }}" id="increment-qty_{{ product.id }}">
+                                                    <i class="fas fa-plus"></i>
                                                 </button>
-                                            </div>
-                                            <input type="submit" class="btn btn-primary" value="Add to Bag">
+                                            </div>                                                  
+                                        </div>
+                                    </div>
+                                    <div class="form-row mb-1">
+                                        <div class="col-12">
+                                            <input type="submit" class="btn btn-danger rounded-0 w-100" value="Add to Bag">
                                         </div>
                                     </div>
                                     <input type="hidden" name="redirect_url" value="{{ request.path }}">
-                                </div>
-                            </form>
+                                </form>
+                            </div>
                         </div>
                         {% if user.is_superuser %}
-                            <div class="row text-center">
-                                <div class="col-6">
-                                    <a class="text-warning" href="{% url 'edit_product' product.id %}">Edit</a>
-                                </div>
-                                <div class="col-6">
-                                    <a class="text-danger" href="{% url 'delete_product' product.id %}">Delete</a>
+                            <div class="row small">
+                                <div class="col-12">
+                                    <div class="row text-center">
+                                        <div class="col-6">
+                                            <a class="btn btn-outline-light btn-sm w-100" href="{% url 'edit_product' product.id %}">Edit</a>
+                                        </div>
+                                    <div class="col-6">
+                                            <a class="btn btn-outline-warning btn-sm w-100" href="{% url 'delete_product' product.id %}">Delete</a>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         {%endif %}
                     </div>
-                    </p> 
                 </div>
             </div>
-        </div>
-    {% endfor %}
+        {% endfor %}
     </div>
-    <div class="btn  shadow-sm rounded-0 border border-black">
+    <div class="btn shadow-sm rounded-0 border border-black">
             <a class="btt-link d-flex h-100">
                 <i class="fas fa-arrow-up text-black mx-auto my-auto"></i>
             </a>	
-        </div>
     </div>
 </div>
 {% endblock %}

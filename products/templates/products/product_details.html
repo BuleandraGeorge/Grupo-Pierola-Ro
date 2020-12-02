@@ -1,37 +1,182 @@
 {% extends "base.html" %}
 {% load static %}
 
-{% block extra_title %} Products {% endblock %}
-{% block extra_header%}
+{% block extra_title %} Wine Details {% endblock %}}
+{% block extracss%}
+    <link rel="stylesheet" type="text/css" href="{% static 'products/css/wine_details.css' %}">
 {% endblock %}
 
 {% block content %}
-<div class="container-fluid pt-4">
+<div class="container">
     <div class="row">
-        <div class="col-6">
-            <img src="/media/{{product.image}}">
+        <div class="col-sm-12 col-md-6">
+            <img class="mx-auto d-block" src="/media/{{product.image}}" style="height:40rem; width:15rem">
         </div>
-        <div class="col-6">
-        <p>
-            {{product.name}}  
-        </p>
-        <p>{{product.region}}</p>
-        <p>{{product.grape_variety}}</p>
-        <p>{{product.vinification}}</p>
-        <p>{{product.ageing}}</p>
-        <p>{{product.palate}}</p>
-        <p>{{product.color_details}}</p>
-        <p>{{product.aroma}}</p>
-        <p>{{product.region}}</p>
-        <p>{{product.service}}</p>
-        <p>{{product.rating}}</p>
-        <p>{{product.size}}</p>
-        <p>{{product.box}}</p>
-
-
-        </div>
+        <div class="col-sm-12 col-md-6 text-justify">
+            <div class="row">
+                <div class="col-12 text-center">
+                    <h4><strong>{{product.name}}</strong></h4>
+                </div>
+            </div>
+            <hr>
+            <div class="row">
+                <div class="col-12">
+                    <h5>Region</h5>
+                    <hr class="bg-dark mt-0">
+                    <p>Comes from region  <strong>{{product.region}}</strong></p> 
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-12">
+                    <h5>Grapes</h5>
+                    <hr class="bg-dark mt-0">
+                    <p>It is made out of <strong>{{product.grape_variety}}</strong> grapes</p>
+                </div>
+            </div>
+            {% if product.color_details != "" %}
+            <div class="row">
+                <div class="col-12">
+                    <h5>Color</h5>
+                    <hr class="bg-dark mt-0">
+                    <p>{{product.color_details}}</p>
+                </div>
+            </div>
+            {% endif %}
+             {% if product.vinification != "" %}
+            <div class="row mt-2">
+                <div class="col-12">
+                    <h5>Vinification</h5>
+                    <hr class="bg-dark mt-0">
+                    <p>{{product.vinification}}</p>
+                </div>
+            </div>
+            {% endif %}
+            {% if product.ageing != "" %}
+            <div class="row">
+                <div class="col-12">
+                    <h5>Aging</h5>
+                    <hr class="bg-dark mt-0">
+                    <p>{{product.ageing}}</p>
+                </div>
+            </div>
+            {% endif %}
+           
+            {% if product.palate != "" %}
+            <div class="row">
+                <div class="col-12">
+                    <h5>Palate</h5>
+                    <hr class="bg-dark mt-0">
+                    <p>{{product.palate}}</p>
+                </div>
+            </div>
+            {% endif %}
+            {% if product.aroma != "" %}
+            <div class="row">
+                <div class="col-12">
+                    <h5>Aroma</h5>
+                    <hr class="bg-dark mt-0">
+                    <p>{{product.aroma}}</p>
+                </div>
+            </div>
+            {% endif %}
+            
+            {% if product.service != "" %}
+            <div class="row">
+                <div class="col-12">
+                    <h5>Service</h5>
+                    <hr class="bg-dark mt-0">
+                    <p>Best served at <strong>{{product.service}}</strong></p>
+                </div>
+            </div>
+            {% endif %}
+            <div class="row">
+                <div class="col-12">
+                    <h5>Sizes available</h5>
+                    <hr class="bg-dark mt-0">
+                    <p>
+                        {% for size in product.size.all%}
+                            {{size}}
+                        {% endfor%}
+                    </p>
+                </div>
+            </div>
+            {% if product.rating != None %}
+            <div class="row">
+                <div class="col-12">
+                    <h5>Rating</h5>
+                    <hr class="bg-dark mt-0">
+                    <p>This wine is rate with {{product.rating}} out of 5.0</p>
+                </div>
+            </div>
+            {% endif %}
+            {% if product.box != "" %}
+            <div class="row">
+                <div class="col-12">
+                    <h5>Boxing</h5>
+                    <hr class="bg-dark mt-0">
+                    <p>{{product.box}}</p>
+                </div>
+            </div>
+            {% endif %}
+            <div class="row">
+                <div class="col-12">
+                    <h5>Price {{product.price}} GBP</h5>
+                    <p></p>
+                </div>
+            </div>
+             <div class="row">
+                <div class="col-12">
+                <form method="POST" action="{% url 'add_to_bag' product.id %}">
+                    {% csrf_token %}
+                    <div class="form-row mb-1">
+                        <div class="col-6">
+                            Size
+                        </div>
+                        <div class="col-6 ">
+                            <select class="form-control form-control-sm" name="item_size">
+                                {% with product.size.all as sizes %}
+                                    {% for size in sizes %}
+                                        <option value="{{size}}">{{ size }}</option>
+                                    {% endfor %}
+                                {% endwith %}
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-row mb-1">
+                        <div class="col-6">
+                            Quantity
+                        </div>
+                        <div class="col-6 input-group input-group-sm">
+                            <div class="input-group-preppend">
+                                <button class="decrement-qty btn btn-dark rounded-0 btn-sm" 
+                                    data-item_id="{{ product.id }}" id="decrement-qty_{{ product.id }}">
+                                        <i class="fas fa-minus"></i>
+                                </button>
+                                            </div>
+                                            <input class="form-control qty-input" type="number" value="1" min="1" max="{{product.quantity_available}}"                   name="quantity" data_item-id="{{product.id}}" id="id_qty_{{product.id}}">
+                            <div class="input-group-append mr-1">
+                                <button class="increment-qty btn btn-dark rounded-0 btn-sm" 
+                                                    data-item_id="{{ product.id }}" id="increment-qty_{{ product.id }}">
+                                    <i class="fas fa-plus"></i>
+                                </button>
+                            </div>                                                  
+                        </div>
+                    </div>
+                    <div class="form-row mb-1">
+                        <div class="col-12">
+                            <input type="submit" class="btn btn-danger rounded-0 w-100" value="Add to Bag">
+                        </div>
+                    </div>
+                    <input type="hidden" name="redirect_url" value="{{ request.path }}">
+                </form>
+            </div>
+        </div>  
     </div>
 </div>
     
 
 {% endblock %}
+{% block postloadjs %}
+    {{block.super}}
+    {% include 'products/includes/quantity_input_script.html' %}
+{%endblock%}

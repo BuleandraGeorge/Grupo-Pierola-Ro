@@ -3,97 +3,98 @@
 
 {% block extra_title %} Products {% endblock %}
 {% block extra_header%}
-    <div class="row justify-content-center">
-        <div class="col-auto">
-            <h2>Wines</h2>
-        </div>
-        <div class="col-auto">
-            <select id="color-selector" class="custom-select custom-select-sm rounded-0 border border-{% if current_sorting != 'None_None' %}info{% else %}black{% endif %}">
-                {% if color_search == None %}
-                        <option value="None" selected >All Colors</option>
-                    {% else %}
-                        <option value="None">All Colors</option>
-                    {% endif %}
-                {% for color in colors %}
-                    {% if color_search == color.name %}
-                        <option value="{{color.name}}" selected>{{color.name}}</option>
-                    {% else %}
-                        <option value="{{color.name}}">{{color.name}}</option>
-                    {% endif %}
-                {% endfor %}
-            </select>
-        </div>
-        <div class="col-auto">
-            <select id="region-selector" class="custom-select custom-select-sm rounded-0 border border-{% if current_sorting != 'None_None' %}info{% else %}black{% endif %}">
-                {% if region_search == None %}
-                        <option value="None" selected >All Regions</option>
-                    {% else %}
-                        <option value="None">All Regions</option>
-                    {% endif %}
-                {% for region in regions %}
-                    {% if region_search == region.name %}
-                        <option value="{{region.name}}" selected>{{region.name}}</option>
-                    {% else %}
-                        <option value="{{region.name}}">{{region.name}}</option>
-                    {% endif %}
-                {% endfor %}
-            </select>
-        </div>
-        <div class="col-auto">
-            <select id="grape-selector" class="custom-select custom-select-sm rounded-0 border border-{% if current_sorting != 'None_None' %}info{% else %}black{% endif %}">
-                {% if grape_search == None %}
-                        <option value="None" selected >All Grapes</option>
-                {% else %}
-                        <option value="None">All Grapes</option>
-                {% endif %}
-                {% for grape in grapes %}
-                    {% if grape_search == grape.name %}
-                        <option value="{{grape.name}}" selected>{{grape.name}}</option>
-                    {% else %}
-                        <option value="{{grape.name}}">{{grape.name}}</option>
-                    {% endif %}
-                {% endfor %}
-            </select>
-        </div>
-        <div class="col-auto">
-            <select id="other-selector" class="custom-select custom-select-sm rounded-0 border border-{% if current_sorting != 'None_None' %}info{% else %}black{% endif %}">
-                {% if sort == "price" %}
-                    {% if direction == "asc" %}
-                        <option value="price_asc" selected>Price (low to high)</option>
-                    {% else %}
-                        <option value="price_desc" selected>Price (high to low)</option>
-                    {% endif %}
-                {% elif sort ==  "rating" %}
-                    {% if direction == "asc" %}
-                        <option value="rating_asc" selected>Rating (high to low)</option>
-                    {% else %}
-                        <option value="rating_desc" selected>Rating (high to low)</option>
-                    {% endif %}
-                {% else  %}
-                    <option value="None" selected>Sort by None</option>
-                {% endif %}
-                <option value="None">Sort by None</option>
-                <option value="price_asc" >Price (low to high)</option>
-                <option value="price_desc">Price (high to low)</option>
-                <option value="rating_asc">Rating (low to high)</option>
-                <option value="rating_desc">Rating (high to low)</option>
-            </select>
-        </div>
-        <div class="col-auto">
-                <button class="btn btn-danger" id="sort-button">Search</button>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-12">
+                <div class="input-group">
+                    <div class="input-group-prepend">
+                        <a href="{% url 'products' %}" class="btn bg-dark text-white btn-white input-group-text rounded-0 border-danger" id="inputGroup-sizing-default">Wines</a>
+                    </div>
+                    <select id="color-selector" class="custom-select rounded-0 border-danger d-none d-md-block">
+                        {% if color_search == None %}
+                            <option value="None" selected >All Colors</option>
+                        {% else %}
+                            <option value="None">All Colors</option>
+                        {% endif %}
+                        {% for color in colors %}
+                            {% if color_search == color.name %}
+                                <option value="{{color.name}}" selected>{{color.name}}</option>
+                            {% else %}
+                            <option value="{{color.name}}">{{color.name}}</option>
+                        {% endif %}
+                    {% endfor %}
+                    </select>
+
+                    <select id="region-selector" class="custom-select rounded-0 border-danger d-none d-md-block">
+                        {% if region_search == None %}
+                            <option value="None" selected >All Regions</option>
+                        {% else %}
+                            <option value="None">All Regions</option>
+                        {% endif %}
+                        {% for region in regions %}
+                            {% if region_search == region.name %}
+                                <option value="{{region.name}}" selected>{{region.name}}</option>
+                            {% else %}
+                                <option value="{{region.name}}">{{region.name}}</option>
+                            {% endif %}
+                        {% endfor %}
+                    </select>
+
+                    <select id="grape-selector" class="custom-select  rounded-0 border-danger d-none d-md-block">
+                        {% if grape_search == None %}
+                            <option value="None" selected >All Grapes</option>
+                        {% else %}
+                            <option value="None">All Grapes</option>
+                        {% endif %}
+                        {% for grape in grapes %}
+                            {% if grape_search == grape.name %}
+                            <option value="{{grape.name}}" selected>{{grape.name}}</option>
+                            {% else %}
+                            <option value="{{grape.name}}">{{grape.name}}</option>
+                            {% endif %}
+                        {% endfor %}
+                    </select>
+                    <select id="other-selector" class="custom-select  rounded-0 border-danger ">
+                        {% if sort == "price" %}
+                            {% if direction == "asc" %}
+                            <option value="price_asc" selected>Price (low to high)</option>
+                            {% else %}
+                            <option value="price_desc" selected>Price (high to low)</option>
+                             {% endif %}
+                        {% elif sort ==  "rating" %}
+                            {% if direction == "asc" %}
+                            <option value="rating_asc" selected>Rating (high to low)</option>
+                            {% else %}
+                            <option value="rating_desc" selected>Rating (high to low)</option>
+                            {% endif %}
+                        {% else  %}
+                            <option value="None" selected>Sort by None</option>
+                        {% endif %}
+
+                        <option value="None">Sort by None</option>
+                        <option value="price_asc" >Price (low to high)</option>
+                        <option value="price_desc">Price (high to low)</option>
+                        <option value="rating_asc">Rating (low to high)</option>
+                        <option value="rating_desc">Rating (high to low)</option>
+                    </select>
+                    <div class="input-group-append">
+                        <button class="btn btn-danger rounded-0" id="sort-button">Search</button>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 {% endblock %}
 
 {% block content %}
-<div class="container-fluid pt-4 mx-2">
+<div class="container-fluid">
     <div class="row">
         {% for product in products %}
-            <div class="col-3" >
-                <div class="card rounded-0 border-0" style="width: 18rem;">
+            <div class="col-sm-12 col-md-6 col-lg-3" >
+                <div class="card rounded-0 border-0 h-100" style="width: 18rem height: 7rem;">
                     <a class="mx-auto" href="{% url 'product_details' product.id %}">
                         {% if product.image %}
-                            <img  src="{{MEDIA_URL}}{{product.image}}" class="card-img-top" style="max-height:15rem; max-width:5rem;" alt="{{product.name}}">
+                            <img  src="{{MEDIA_URL}}{{product.image}}" class="card-img-top" style="height:15rem; width:5rem;" alt="{{product.name}}">
                         {% else %}
                             <img  src="{{MEDIA_URL}}no_image.png" class="card-img-top img-fluid" style="max-height:15rem; max-width:15rem;" alt="{{product.name}}">
                         {% endif %}
@@ -112,7 +113,7 @@
                                     <div class="col-6">
                                         Grape Variety
                                     </div>
-                                    <div class="col-6 text-right">
+                                    <div class="col-6 text-right text-truncate">
                                         <a class=" text-reset text-decoration-none" href="{% url 'products' %}?grape={{product.grape_variety.name}}">
                                             <strong>{{product.grape_variety.name}}</strong>
                                         </a>
@@ -215,10 +216,10 @@
                                 <div class="col-12">
                                     <div class="row text-center">
                                         <div class="col-6">
-                                            <a class="btn btn-outline-light btn-sm w-100" href="{% url 'edit_product' product.id %}">Edit</a>
+                                            <a class="btn btn-outline-light rounded-0 btn-sm w-100" href="{% url 'edit_product' product.id %}">Edit</a>
                                         </div>
                                     <div class="col-6">
-                                            <a class="btn btn-outline-warning btn-sm w-100" href="{% url 'delete_product' product.id %}">Delete</a>
+                                            <a class="btn btn-outline-warning rounded-0 btn-sm w-100" href="{% url 'delete_product' product.id %}">Delete</a>
                                         </div>
                                     </div>
                                 </div>
@@ -230,7 +231,7 @@
         {% endfor %}
     </div>
     <div class="btn shadow-sm rounded-0 border border-black">
-            <a class="btt-link d-flex h-100">
+            <a class="btt-link d-flex h-100 mx-auto">
                 <i class="fas fa-arrow-up text-black mx-auto my-auto"></i>
             </a>	
     </div>

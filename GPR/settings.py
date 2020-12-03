@@ -54,6 +54,7 @@ INSTALLED_APPS = [
     'stripe',
     'storages',
     'contact',
+    'about',
 ]
 
 MIDDLEWARE = [

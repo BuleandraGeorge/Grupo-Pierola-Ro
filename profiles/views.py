@@ -43,3 +43,5 @@ def order_history(request, order_number):
     }
 
     return render(request, template, context)
+
+# https://github.com/ckz8780/boutique_ado_v1/blob/250e2c2b8e43cccb56b4721cd8a8bd4de6686546/profiles/views.py

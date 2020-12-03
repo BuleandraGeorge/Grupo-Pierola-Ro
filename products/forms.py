@@ -14,30 +14,6 @@ class formProduct (forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
 
-        # Displays friendly name of colors
-        colors = color.objects.all()
-        friendly_names = [(c.id, c.get_friendly_name()) for c in colors]
-
-        self.fields['color'].choices = friendly_names
-
-        # Displays friendly name of grape_varieties
-        grape_varieties = grape_variety.objects.all()
-        friendly_names = [(c.id, c.get_friendly_name()) for c in grape_varieties]
-
-        self.fields['grape_variety'].choices = friendly_names
-
-        # Displays friendly name of regions
-        regions = region.objects.all()
-        friendly_names = [(c.id, c.get_friendly_name()) for c in regions]
-
-        self.fields['region'].choices = friendly_names
-
-        # Displays friendly name of sizes
-        sizes = size.objects.all()
-        friendly_names = [(c.id, c.get_friendly_name()) for c in sizes]
-
-        self.fields['size'].choices = friendly_names
-
         # Adds min and max values for inputs where is need it
         for field_name, field in self.fields.items():
             field.widget.attrs['class'] = 'border-danger rounded-0'

@@ -29,5 +29,8 @@ class UserProfileForm(forms.ModelForm):
                 else:
                     placeholder = placeholders[field]
                 self.fields[field].widget.attrs['placeholder'] = placeholder
-            self.fields[field].widget.attrs['class'] = 'border-back rounded-0'
+            self.fields[field].widget.attrs['class'] = 'border-black rounded-0'
             self.fields[field].label = False
+            
+# https://github.com/ckz8780/boutique_ado_v1/blob/250e2c2b8e43cccb56b4721cd8a8bd4de6686546/profiles/forms.py
+

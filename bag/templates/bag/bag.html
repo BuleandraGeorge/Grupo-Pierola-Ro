@@ -30,7 +30,6 @@
                             {% for item in bag_items %}
                                 <tr>
                                     <td class="p-3">
-                                        <img class="w-100" src="{{MEDIA_URL}}{{item.product.image}}" style="max-height:7rem; max-width:3rem;">
                                         {% if item.product.image %}
                                             <img class="w-100" src="{{MEDIA_URL}}{{item.product.image}}" style="max-height:7rem; max-width:3rem;">
                                         {% else %}

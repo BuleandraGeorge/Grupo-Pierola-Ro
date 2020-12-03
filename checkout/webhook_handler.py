@@ -109,7 +109,7 @@ class StripeWH_Handler:
                         orderline.save()
             except Exception as e:
                 if order:
-                        order.delete()
+                    order.delete()
                 return HttpResponse(content=f'Web hook received: {event["type"]} \
                         | ERROR: {e}', status=500)
             self._send_confirmation_email(order)

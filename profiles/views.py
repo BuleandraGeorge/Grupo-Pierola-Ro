@@ -6,6 +6,7 @@ from checkout.models import order
 from .models import UserProfile
 from .forms import UserProfileForm
 
+
 @login_required
 def profile_view(request):
     profile = get_object_or_404(UserProfile, user=request.user)
@@ -13,7 +14,7 @@ def profile_view(request):
         form = UserProfileForm(request.POST, instance=profile)
         if form.is_valid:
             form.save()
-            messages.success(request, f'Profile Updated!')
+            messages.success(request, 'Profile Updated!')
         else:
             messages.error(request, 'Something went wrong, please check the form and try again.')
     else:
@@ -25,6 +26,7 @@ def profile_view(request):
     }
     template = 'profiles/my_profile.html'
     return render(request, template,  context)
+
 
 def order_history(request, order_number):
     Order = get_object_or_404(order, order_number=order_number)

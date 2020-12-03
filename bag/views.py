@@ -25,7 +25,7 @@ def add_to_bag(request, item_id):
             bag[item_id]['item_size-quantity'][size] = quantity
             messages.success(request, f'Added {added_product.name} {size} to the bag')
     else:
-        bag[item_id]= {'item_size-quantity': {size: quantity}}
+        bag[item_id] = {'item_size-quantity': {size: quantity}}
         messages.success(request, f'Added {added_product.name} {size} to the bag')
 
     request.session['bag'] = bag
@@ -46,8 +46,6 @@ def modify_quantity(request, item_id):
         messages.success(request, f'Removed {added_product.name} {size} from the bag')
         if not bag[item_id]['item_size-quantity']:
             bag.pop(item_id)
-
-
     request.session['bag'] = bag
     return redirect(reverse('bag'))
 

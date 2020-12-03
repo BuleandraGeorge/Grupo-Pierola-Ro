@@ -52,14 +52,6 @@ def checkout_view(request):
             order = order_form.save(commit=False)
             order.stripe_pid = request.POST.get('client_secret').split('_secret')[0]
             order.original_bag = json.dumps(bag)
-            full_name = request.POST['full_name'],
-            email = request.POST['email'],
-            phone_number = request.POST['phone_number'],
-            street_address1 = request.POST['street_address1'],
-            street_address2 = request.POST['street_address2'],
-            town_or_city = request.POST['town_or_city'],
-            postcode = request.POST['postcode'],
-            country = request.POST['country'],
             order.save()
             for item_id, item_data in bag.items():
                 try:
@@ -123,7 +115,7 @@ def checkout_view(request):
             'stripe_public_key': stripe_public_key,
             'client_secret': intent.client_secret,
         }
-        return render (request, template, context)
+        return render(request, template, context)
 
 
 def checkout_success(request, order_number):
@@ -151,7 +143,7 @@ def checkout_success(request, order_number):
         An confirmations will send to {Order.email}')
     if 'bag' in request.session:
         del request.session['bag']
-    context={
+    context = {
         'order': Order,
     }
     template = 'checkout/checkout_success.html'

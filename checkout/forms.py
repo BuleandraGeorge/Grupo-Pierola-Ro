@@ -6,10 +6,11 @@ class orderForm(forms.ModelForm):
     class Meta:
         model = order
         fields = {
-            'full_name', 'email', 'phone_number', 
-            'street_address1', 'street_address2', 
-            'town_or_city', 'postcode', 'country', 
+            'full_name', 'email', 'phone_number',
+            'street_address1', 'street_address2',
+            'town_or_city', 'postcode', 'country',
         }
+
     def __init__(self, *args, **kwargs):
         """
         Add placeholders and classes, remove auto-generated
@@ -35,4 +36,3 @@ class orderForm(forms.ModelForm):
                 self.fields[field].widget.attrs['placeholder'] = placeholder
             self.fields[field].widget.attrs['class'] = 'stripe-style-input'
             self.fields[field].label = False
-

@@ -1,5 +1,6 @@
 from django.forms import DateTimeInput
 
+
 class BootstrapDateTimePickerInput(DateTimeInput):
     template_name = 'user_filter/bootstrap_datetimepicker.html'
 

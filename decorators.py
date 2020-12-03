@@ -1,4 +1,5 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import redirect
+
 
 def adult_or_logged_in(func):
     def wrapper(request, *args, **kwargs):

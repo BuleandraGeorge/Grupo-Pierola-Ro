@@ -6,7 +6,7 @@ from .forms import formProduct
 from django.contrib.auth.decorators import login_required
 from decorators import adult_or_logged_in
 
-# Create your views here.
+
 @adult_or_logged_in
 def products(request):
 
@@ -66,6 +66,7 @@ def products(request):
     }
     return render(request, 'products/products.html', context)
 
+
 @adult_or_logged_in
 def product_details(request, product_id):
 
@@ -74,6 +75,7 @@ def product_details(request, product_id):
         "product": wine
     }
     return render(request, 'products/product_details.html', context)
+
 
 @login_required
 def add_product(request):
@@ -96,6 +98,7 @@ def add_product(request):
             'form': form
         }
         return render(request, template, context)
+
 
 @login_required
 def edit_product(request, product_id):
@@ -121,7 +124,8 @@ def edit_product(request, product_id):
             'product': product_for_edit
         }
         return render(request, template, context)
-    
+
+
 @login_required
 def delete_product(request, product_id):
     if not request.user.is_superuser:

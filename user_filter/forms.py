@@ -6,11 +6,13 @@ from datetime import date
 today = date.today()
 c_year = today.year
 
+
 class Age(forms.Form):
     date_of_birth = forms.DateTimeField(
         input_formats=['%d/%m/%Y'],
         widget=BootstrapDateTimePickerInput()
     )
+
 
 class CustomForm(SignupForm, Age):
     date_of_birth = Age
@@ -20,4 +22,4 @@ class CustomForm(SignupForm, Age):
         user.save()
         return user
 
-    field_order = [ 'date_of_birth', 'email', 'password1', 'password2']
+    field_order = ['date_of_birth', 'email', 'password1', 'password2']

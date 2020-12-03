@@ -1,8 +1,7 @@
 {% extends "base.html" %}
 {% load static %}
-<head>
-        <title>{% block extra_title %} Add Wine {% endblock %}</title>
-    </head>
+{% block extra_title %} Add Wine {% endblock %}
+
 {% block content %}
     <div class="container">
         <div class="row">
@@ -25,5 +24,4 @@
             </div>
         </div>
     </div>
-    
 {% endblock %}

@@ -1,17 +1,11 @@
 from django.db import models
 
-# Create your models here.
-from django.db import models
-
-import datetime
-
 
 class color(models.Model):
     name = models.CharField(max_length=254, blank=True, null=True)
 
     def __str__(self):
         return self.name
-
 
 
 class grape_variety(models.Model):
@@ -24,13 +18,11 @@ class grape_variety(models.Model):
         return self.name
 
 
-
 class region(models.Model):
     name = models.CharField(max_length=254, blank=True, null=True)
 
     def __str__(self):
         return self.name
-
 
 
 class size(models.Model):
@@ -50,7 +42,7 @@ class product(models.Model):
     aroma = models.TextField(blank=True, null=True)
     palate = models.TextField(blank=True, null=True)
     ageing = models.TextField(blank=True, null=True)
-    service = models.CharField(max_length=254,blank=True, null=True)
+    service = models.CharField(max_length=254, blank=True, null=True)
     price = models.DecimalField(max_digits=6, decimal_places=2, null=False, blank=False)
     rating = models.DecimalField(max_digits=2, decimal_places=1, null=True, blank=True)
     size = models.ManyToManyField(size)

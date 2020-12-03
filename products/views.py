@@ -67,7 +67,7 @@ def products(request):
     return render(request, 'products/products.html', context)
 
 
-@adult_or_logged_in
+
 def product_details(request, product_id):
 
     wine = get_object_or_404(product, pk=product_id)

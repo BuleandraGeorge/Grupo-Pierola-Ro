@@ -71,6 +71,8 @@ def checkout_view(request):
                             product_size=size.objects.get(name=Size),
                             quantity=quantity,
                         )
+                        Product.total_quantity_sold += quantity
+                        Product.save()
                         orderline.save()
                 except product.DoesNotExist:
                     messages.error(request, (

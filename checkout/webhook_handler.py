@@ -104,6 +104,8 @@ class StripeWH_Handler:
                             product_size=size.objects.get(name=Size),
                             quantity=quantity
                         )
+                        Product.total_quantity_sold += quantity
+                        Product.save()
                         orderline.save()
             except Exception as e:
                 if order:

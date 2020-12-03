@@ -2,28 +2,22 @@
 <div class="collapse navbar-collapse" id="main-nav">
     <ul class="navbar-nav w-auto mx-auto">
         <li class="nav-item">
-            <a class="text-reset text-decoration-none btn " href="{% url 'home' %}" id="home" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            <a class="text-reset text-decoration-none btn " href="{% url 'home' %}" id="home" aria-haspopup="true" aria-expanded="false">
                 <i class="fas fa-home pr-2"></i>
                 <span>Home</span>
             </a>
         </li>
         <li class="nav-item dropdown">
-            <a class="text-reset text-decoration-none btn " href="#" id="all-products-link" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            <a class="text-reset text-decoration-none btn " href="{% url 'products' %}" id="all-products-link" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                 <i class="fas fa-wine-glass-alt pr-2"></i>
                 <span>Wines</span>
             </a>
-            <div class="dropdown-menu border-0" aria-labelledby="all-products-link">
+            <div class="dropdown-menu rounded-0 border-danger" aria-labelledby="all-products-link">
                 <a href="{% url 'products' %}" class="dropdown-item">All</a>
                 <a href="{% url 'products' %}?color=Red" class="dropdown-item ">Red</a>
                 <a href="{% url 'products' %}?color=Rose" class="dropdown-item ">Rose</a>
                 <a href="{% url 'products' %}?color=White" class="dropdown-item">White</a>
             </div>
-        </li>
-        <li class="nav-item">
-            <a class="text-reset text-decoration-none btn " href="#">
-                    <i class="far fa-calendar-check pr-2"></i>
-                    <span>Events</span>
-                </a>
         </li>
         <li class="nav-item">
             <a class="text-reset text-decoration-none btn" href="#">

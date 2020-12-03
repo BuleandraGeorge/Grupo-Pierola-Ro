@@ -4,9 +4,10 @@ from django.db.models import Q
 from .models import product, color, grape_variety, region, size
 from .forms import formProduct
 from django.contrib.auth.decorators import login_required
+from decorators import adult_or_logged_in
 
 # Create your views here.
-
+@adult_or_logged_in
 def products(request):
 
     products = product.objects.all()
@@ -65,7 +66,7 @@ def products(request):
     }
     return render(request, 'products/products.html', context)
 
-
+@adult_or_logged_in
 def product_details(request, product_id):
 
     wine = get_object_or_404(product, pk=product_id)

@@ -1,24 +1,28 @@
 {% extends "base.html" %}
 {% load static %}
-    <head>
-        <title>{% block extra_title %} Children Filter {% endblock %}</title>
-    </head>
+
+{% block extra_title %} +18 Check {% endblock %}
     {% block content %}
-    <h1 class="text-center my-5"> Welcome to GRUPO PIEROLA ROMANIA </h1>
-    <p class="text-center my-5">Our products are avaible only for persons over <strong>18</strong> years old</p>
+    <!-- Displayed only on medium and large displayes by boostrap-->
+    <h1 class="d-none d-md-block text-center my-3"> Welcome to <strong>GRUPO PIEROLA ROMANIA</strong>!</h1>
+    <!-- Displayed only on small screens -->
+    <h1 class=" d-md-none text-center"> Welcome </h1>
+    <h2 class=" d-md-none text-center"> to </h2>
+    <h1 class=" d-md-none text-center"><strong> GRUPO PIEROLA ROMANA </strong></h1>
+    <p class="text-center mx-2 my-3">Our products are avaible only for persons over <strong>18</strong> years old</p>
     <p class="text-center"> Please enter your birthday to continue </p>
         <form method="POST" action="">
             {% csrf_token %}
             <div class="container">
-                <div class="row justify-content-center">
-                    <div class="col-3">{{form}}</div>
+                <div class="row ">
+                    <div class="col-12 col-md-4 mx-auto">{{form|crispy}}</div>
                 </div>
-                <div class="row justify-content-center my-2">
-                    <div class="col-2 btn">
-                        <button type="submit">Check</button>
+                <div class="row my-2 justify-content-center">
+                    <div class="col-6 col-md-2">
+                        <button class="w-100 btn btn-danger rounded-0" type="submit">Check</button>
                     </div>
-                    <div class="col-2 btn">
-                        <a href="/accounts/signup">Sign Up</a>
+                    <div class="col-6 col-md-2 ">
+                        <a class="w-100 btn btn-outline-primary rounded-0" href="/accounts/signup">Sign Up</a>
                     </div>
                 </div>
             </div>

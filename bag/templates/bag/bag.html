@@ -1,105 +1,111 @@
 {% extends "base.html" %}
 {% load bag_tools %}
 {% load static %}
-<head>
-        <title>{% block extra_title %} Bag {% endblock %}</title>
-    </head>
-    {% block extra_header%}
-    <div class="row">
-                <div class="col-auto ml-5">
-                    <h2>Shopping Bag</h2>
-                </div>
+{% block extra_title %} Bag {% endblock %}
+{% block extracss %}
+    <link rel="stylesheet" type="text/css" href="{% static 'bag/css/bag.css' %}">
+{% endblock %}
+{% block extra_header%}
+    <div class="row border-bottom border-danger">
+        <div class="col-12 mt-2 text-center">
+            <h2>Shopping Bag</h2>
+        </div>
     </div>
-    {% endblock %}
+{% endblock %}
 {% block content %}
-    <div class="d-flex container justify-content-center">
-        <div class="row">
-            <div class="col-12">
-                <div class="row">
-                    {% if bag_items %}
+    {% if bag_items %}
+        {% include 'bag/includes/mobile_bag.html'%}
+        <div class="d-none d-md-flex container justify-content-center">
+            <div class="row">
+                <div class="col-12">
                         <table class="mt-3">
-                        <tr>
-                            <th>Item</th>
-                            <th>Name</th>
-                            <th class="px-1">Size</th>
-                            <th class="px-1">Quantity</th>
-                            <th class="px-3">Price</th>
-                            <th class="px-1">Subtotal</th>
-                        </tr>
-                        {% for item in bag_items %}
                             <tr>
-                                <td class="p-3">
-                                    <img class="w-100" src="{{MEDIA_URL}}{{item.product.image}}" style="max-height:7rem; max-width:3rem;">
-                                </td>
-                                <td class="p-3">
-                                    <h6>{{item.product.name}}</h6>
-                                </td>
-                                <td class="p-3">
-                                    <h6>{{item.size}}</h6>
-                                </td>
-                                <td class="mx-4">
-                                    <form class="update-form" method="POST" action="{% url 'modify_quantity' item.item_id %}">
-                                    {% csrf_token %}
-                                        <div class="form-group">
-                                            <div class="input-group">
-                                                <div class="input-group-preppend ">
-                                                    <button class="decrement-qty btn btn-sm btn-danger" 
-                                                    data-item_id="{{ item.item_id }}" id="decrement-qty_{{ item.item_id }}">
-                                                            <i class="fas fa-minus fa-sm"></i>
-                                                    </button>
-                                                </div>
-                                                <input class="form-control form-control-sm qty-input" type="number" value="{{item.quantity}}" min="1" max="{{product.quantity_available}}" name="quantity" data_item-id="{{item.item_id}}" id="id_qty_{{item.item_id}}">
-                                                <input type="hidden" value="{{item.size}}" name="size">
-                                                <div class="input-group-append">
-                                                    <button class="increment-qty btn btn-sm btn-danger" 
-                                                    data-item_id="{{ item.item_id}}" id="increment-qty_{{ item.item_id }}">
-                                                            <i class="fas fa-plus fa-sm"></i>
-                                                    </button>
+                                <th>Item</th>
+                                <th>Name</th>
+                                <th class="px-1">Size</th>
+                                <th class="px-1">Quantity</th>
+                                <th class="px-3">Price</th>
+                                <th class="px-1">Subtotal</th>
+                            </tr>
+                            {% for item in bag_items %}
+                                <tr>
+                                    <td class="p-3">
+                                        <img class="w-100" src="{{MEDIA_URL}}{{item.product.image}}" style="max-height:7rem; max-width:3rem;">
+                                    </td>
+                                    <td class="p-3">
+                                        <h6>{{item.product.name}}</h6>
+                                    </td>
+                                    <td class="p-3">
+                                        <h6>{{item.size}}</h6>
+                                    </td>
+                                    <td class="mx-4">
+                                        <form class="update-form" method="POST" action="{% url 'modify_quantity' item.item_id %}">
+                                        {% csrf_token %}
+                                            <div class="form-group">
+                                                <div class="input-group">
+                                                    <div class="input-group-preppend ">
+                                                        <button class="decrement-qty btn btn-sm btn-dark rounded-0" 
+                                                        data-item_id="{{ item.item_id }}" id="decrement-qty_{{ item.item_id }}">
+                                                                <i class="fas fa-minus fa-sm"></i>
+                                                        </button>
+                                                    </div>
+                                                    <input class="form-control form-control-sm qty-input" type="number" value="{{item.quantity}}" min="1" max="{{product.quantity_available}}" name="quantity" data_item-id="{{item.item_id}}" id="id_qty_{{item.item_id}}">
+                                                    <input type="hidden" value="{{item.size}}" name="size">
+                                                    <div class="input-group-append">
+                                                        <button class="increment-qty btn btn-sm btn-dark rounded-0" 
+                                                        data-item_id="{{ item.item_id}}" id="increment-qty_{{ item.item_id }}">
+                                                                <i class="fas fa-plus fa-sm"></i>
+                                                        </button>
+                                                    </div>
                                                 </div>
                                             </div>
-                                        </div>
-                                        <input type="hidden" name="product_size" value="{{ item.size }}">
-                                    </form>
-                                    <a class="update-link text-info"><small>Update</small></a>
-                                    <a class="remove-item text-danger float-right" id="remove_{{ item.item_id }}" data-size="{{ item.size }}"><small>Remove</small></a>
-                                </td>
-                                <td class="p-3">
-                                    <h6>{{item.product.price}}</h6>
-                                </td>
-                                <td class="p-3">
-                                    <h6>{{item.product.price|subtotal_calc:item.quantity}}</h6>
+                                            <input type="hidden" name="product_size" value="{{ item.size }}">
+                                        </form>
+                                        <a class="update-link text-info"><small>Update</small></a>
+                                        <a class="remove-item text-danger float-right" id="remove_{{ item.item_id }}" data-size="{{ item.size }}"><small>Remove</small></a>
+                                    </td>
+                                    <td class="p-3">
+                                        <h6>{{item.product.price}}</h6>
+                                    </td>
+                                    <td class="p-3">
+                                        <h6>{{item.product.price|subtotal_calc:item.quantity}}</h6>
+                                    </td>
+                                </tr>
+                            {% endfor%}
+                            <tr>
+                                    <td colspan="5" class="text-right pr-3">
+                                        <h6><strong>Total:{{total}}</strong></h6>
+                                    </td>
+                                </tr>
+                            <tr>
+                                <td colspan="5" class="text-right">
+                                    <a href="{% url 'products' %}" class="btn btn-outline-danger rounded-0 ">
+                                        <span class="icon">
+                                            <i class="fas fa-chevron-left"></i>
+                                        </span>
+                                        <span class="text-uppercase">Keep Shopping</span>
+                                    </a>
+                                    <a href="{% url 'checkout' %}" class="btn btn-warning rounded-0  ">
+                                            <i class="fas fa-lock"></i>
+                                        <span class="text-uppercase">SECURE CHECKOUT</span>
+                                    </a>
                                 </td>
                             </tr>
-                        {% endfor%}
-                        <tr>
-                                <td colspan="5" class="text-right pr-3">
-                                    <h6><strong>Total:{{total}}</strong></h6>
-                                </td>
-                            </tr>
-                        <tr>
-                            <td colspan="5" class="text-right">
-                                <a href="{% url 'products' %}" class="btn btn-outline-black rounded-0 btn-lg">
-                                    <span class="icon">
-                                        <i class="fas fa-chevron-left"></i>
-                                    </span>
-                                    <span class="text-uppercase">Keep Shopping</span>
-                                </a>
-                                <a href="{% url 'checkout' %}" class="btn  btn-warning rounded-0  ">
-                                        <i class="fas fa-lock"></i>
-                                    <span class="text-uppercase">SECURE CHECKOUT</span>
-                                </a>
-                            </td>
-                        </tr>
-                    </table>
-                    {% else %}
-                        <div class="col-12 text-center">
-                            <a href="{% url 'products' %}"> Start Shopping </a>
-                        </div>
-                    {% endif %}
+                        </table>        
                 </div>
             </div>
         </div>
+    {% else %}
+    <div class="container-fluid start-shopping">
+        <div class="row">
+            <div class="col-12 text-center">
+                <a class=" text-dark" href="{% url 'products' %}">
+                    <h4><i class="fas fa-chevron-left"></i> Start Shopping</h4>
+                 </a>
+            </div>
+        </div> 
     </div>
+    {% endif %}
 {% endblock %}
 {% block postloadjs %}
     {{block.super}}

@@ -1,23 +1,21 @@
 {% extends "base.html" %}
 {% load bag_tools %}
 {% load static %}
-<head>
-        <title>{% block extra_title %} Bag {% endblock %}</title>
-        {% block extracss%}
-            <link rel="stylesheet" type="text/css" href="{% static 'checkout/css/checkout.css' %}">
-        {% endblock %}
-</head>
-    {% block extra_header%}
-    <div class="row">
-                <div class="col-auto ml-5">
-                    <h2>Checkout</h2>
-                </div>
+{% block extra_title %} Checkout {% endblock %}
+{% block extracss%}
+    <link rel="stylesheet" type="text/css" href="{% static 'checkout/css/checkout.css' %}">
+{% endblock %}
+{% block extra_header%}
+<div class="row border-bottom border-danger">
+    <div class="col-12 mt-2 text-center">
+        <h2>Checkout</h2>
     </div>
+</div>
     {% endblock %}
 {% block content %}
     <div class="container">
         <div class="row">
-            <div class="col-6">
+            <div class="col-12 col-lg-6">
                 <p class="mb-1 mt-0 small text-muted">Please complete the checkout form</p>
                 <form method="POST" action="{% url 'checkout' %}" id="payment-form">
                     {% csrf_token %}
@@ -52,13 +50,28 @@
                         <div class="mb-3 text-danger" id="card-errors" role="alert"> <!-- Errors--></div>
                         <input type="hidden" value="{{ client_secret }}" name="client_secret">
                     </fieldset>
-                    <button  class="btn  btn-warning rounded-0" id="submit-button">
-                            <i class="fas fa-lock"></i>
-                            <span class="text-uppercase">CONFIRM PAYMENT</span>
-                    </button>
+                    <div class="row d-md-none">
+                        <div class="col-12 text-right"><p class="text-right"><strong>Total: {{total}}</strong></p></div>
+                    </div>
+                    <div class="row">
+                        <div class="col-6 d-md-none">
+                            <a class="w-100 btn btn-outline-danger rounded-0" href="{% url 'bag' %}">
+                                    Go To<span class="icon">
+                                        <i class="fas fa-shopping-cart"></i>
+                                </span> 
+                            </a>
+                        </div>
+                        <div class="col-6 col-lg-12">
+                            <button  class="w-100 btn btn-warning rounded-0" id="submit-button">
+                                <i class="fas fa-lock"></i>
+                                <span class="text-uppercase">CONFIRM</span>
+                            </button>
+                        </div>
+                    </div>
+                    
                 </form>
             </div>
-            <div class="col-6">
+            <div class="col-6 d-none d-lg-block">
                 <p class="mb-1 mt-0 small text-muted">Bag content</p>
                 <div class="row">
                     <div class="col-7 offset-2">
@@ -81,13 +94,13 @@
                                 <p class="my-0 small text-muted">Qty: {{ item.quantity }}</p>
                             </div>
                             <div class="col-3 text-right">
-                                <p class="my-0 small text-muted">${{ item.product.price | subtotal_calc:item.quantity }}</p>
+                                <p class="my-0 small text-muted">{{ item.product.price | subtotal_calc:item.quantity }} GBP</p>
                             </div>
                         </div>
                         {% endfor %}
                         <div class="row">
                             <div class="col-4">
-                                <a class="btn btn-outline-dark rounded-0" href="{% url 'products' %}">
+                                <a class="w-100 btn btn-outline-dark rounded-0" href="{% url 'products' %}">
                                     <span class="icon">
                                         <i class="fas fa-chevron-left"></i>
                                     </span> 
@@ -95,14 +108,14 @@
                                 </a>
                             </div>
                             <div class="col-4">
-                                <a class="btn btn-outline-dark rounded-0" href="{% url 'bag' %}">
+                                <a class="w-100 btn btn-outline-dark rounded-0" href="{% url 'bag' %}">
                                     Go To<span class="icon">
                                         <i class="fas fa-shopping-cart"></i>
                                     </span> 
                                 </a>
                             </div>
                             <div class="col-4 ">
-                                    <p class="text-right"><strong>Total: {{total}}</strong></p>
+                                    <p class="text-right"><strong>Total: {{total}} GBP</strong></p>
                             </div>
                         </div>
                     </div>

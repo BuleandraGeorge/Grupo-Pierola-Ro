@@ -2,9 +2,17 @@
 {% load static %}
 
 {% block extra_title %} Products {% endblock %}
+{% block extracss%}
+    <link rel="stylesheet" type="text/css" href="{% static 'products/css/wines.css' %}">
+{% endblock %}
 {% block extra_header%}
     <div class="container-fluid">
         <div class="row">
+            <div class="col-12">
+                <div class="col-auto mt-2 text-center">
+                    <h2>Wines</h2>
+                </div>
+            </div>
             <div class="col-12">
                 <div class="input-group">
                     <div class="input-group-prepend">
@@ -218,7 +226,7 @@
                                         <div class="col-6">
                                             <a class="btn btn-outline-light rounded-0 btn-sm w-100" href="{% url 'edit_product' product.id %}">Edit</a>
                                         </div>
-                                    <div class="col-6">
+                                         <div class="col-6">
                                             <a class="btn btn-outline-warning rounded-0 btn-sm w-100" href="{% url 'delete_product' product.id %}">Delete</a>
                                         </div>
                                     </div>

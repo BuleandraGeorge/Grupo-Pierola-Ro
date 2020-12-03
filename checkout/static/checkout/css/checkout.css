@@ -50,3 +50,8 @@ select:invalid,
 select option[value=""] {
     color: #aab7c4 !important;
 }
+@media only screen and (max-width: 920px) {
+  body {
+    margin-top:8rem;
+  }
+}

@@ -1,12 +1,14 @@
 {% extends "base.html" %}
 {% load bag_tools %}
 {% load static %}
-<head>
-    <title>{% block extra_title %} Bag {% endblock %}</title>
-    {% block extracss%}
-        
-    {% endblock %}
-</head>
+{% block extra_title %} Bag {% endblock %}
+{% block extra_header%}
+    <div class="row border-bottom border-danger">
+        <div class="col-12 mt-2 text-center">
+            <h2>Checkout Success!!!</h2>
+        </div>
+    </div>
+{% endblock %}
 {% block content %}
     <div class="container justify-content-center">
          <div class="row">
@@ -16,27 +18,27 @@
         </div>
         <div class="row my-3">
             <div class="col-12">
-               <p class="text-back"> Your order informations is below. A confirmation will send to <strong>{{order.email}}</strong></p>
+               <p class=""> Your order informations is below. A confirmation will send to <strong>{{order.email}}</strong></p>
             </div>
         </div>
         <div class="row mb-2">
-                <div class="col">
+                <div class="col-12">
                     <h4>Order Details</h4>
                 </div>
         </div>
         <div class="row pl-2">
-            <div class="col-4">
+            <div class="col-6 col-md-4">
                 <p>Order Number:</p>
              </div>
-            <div class="col-4">
-                <p>{{order.order_number}}</p>
+            <div class="col-6 col-md-4 text-right">
+                <p class="text-truncate">{{order.order_number}}</p>
             </div>
          </div>
         <div class="row pl-2">
-            <div class="col-4">
+            <div class="col-6 col-md-4">
                 <p>Order Date:</p>
             </div>
-            <div class="col-4">
+            <div class="col-6 col-md-4 text-right">
                 <p>{{order.date}}</p>
             </div>
         </div>
@@ -46,33 +48,33 @@
                 </div>
         </div>
         <div class="row pl-2">
-            <div class="col-2 small">
+            <div class="col-3 col-md-2 small">
                     <p class="font-weight-bold">Name</p>
             </div>
-            <div class="col-2 small text-center">
+            <div class="col-3 col-md-2 small text-center">
                     <p class="font-weight-bold">Size</p>
             </div>
             
-            <div class="col-2 small text-center">
+            <div class="col-3 col-md-2 small text-center">
                     <p class="font-weight-bold">Quantity</p>
             </div>
-            <div class="col-2 small text-center">
+            <div class="col-3 col-md-2 small text-center">
                     <p class="font-weight-bold">Subtotal</p>
             </div>
         </div>
         {% for item in order.lineitem.all %}
             <div class="row pl-2">
-                <div class="col-2 small">
+                <div class="col-3 col-md-2 small">
                        <p>{{item.product.name}}</p>
                 </div>
-                <div class="col-2 small text-center">
+                <div class="col-3 col-md-2 small text-center">
                         <p>{{item.product_size}}</p>
                 </div>
                 
-                <div class="col-2 small text-center">
+                <div class="col-3 col-md-2 small text-center">
                         <p>{{item.quantity}}</p>
                 </div>
-                <div class="col-2 small text-center">
+                <div class="col-3 col-md-2 small text-center">
                         <p>{{item.line_total}}</p>
                 </div>
             </div>
@@ -83,58 +85,58 @@
                 </div>
         </div>
         <div class="row pl-2">
-            <div class="col-4">
+            <div class="col-6 col-md-4">
                 <p class="font-weight-bold">Full Name</p>
              </div>
-            <div class="col-4">
-                <p>{{order.full_name}}</p>
+            <div class="col-6 col-md-4 text-right">
+                <p>{{order.full_name}} </p>
             </div>
          </div>
          <div class="row pl-2">
-            <div class="col-4">
+            <div class="col-6 col-md-4">
                 <p class="font-weight-bold">Phone number</p>
              </div>
-            <div class="col-4">
+            <div class="col-6 col-md-4 text-right">
                 <p>{{order.phone_number}}</p>
             </div>
         </div>
         <div class="row pl-2">
-            <div class="col-4">
+            <div class="col-6 col-md-4">
                 <p class="font-weight-bold">Address 1</p>
              </div>
-            <div class="col-4">
+            <div class="col-6 col-md-4 text-right">
                 <p>{{order.street_address1}}</p>
             </div>
         </div>
         <div class="row pl-2">
-            <div class="col-4">
+            <div class="col-6 col-md-4">
                 <p class="font-weight-bold">Address 2</p>
              </div>
-            <div class="col-4">
+            <div class="col-6 col-md-4 text-right">
                 <p>{{order.street_address2}}</p>
             </div>
         </div>
         <div class="row pl-2">
-            <div class="col-4">
+            <div class="col-6 col-md-4 ">
                 <p class="font-weight-bold">Town or City</p>
              </div>
-            <div class="col-4">
+            <div class="col-6 col-md-4 text-right">
                 <p>{{order.town_or_city}}</p>
             </div>
         </div>
         <div class="row pl-2">
-            <div class="col-4">
+            <div class="col-6 col-md-4">
                 <p class="font-weight-bold">Postcode</p>
              </div>
-            <div class="col-4">
+            <div class="col-6 col-md-4 text-right">
                 <p>{{order.postcode}}</p>
             </div>
         </div>
         <div class="row pl-2">
-            <div class="col-4">
+            <div class="col-6 col-md-4">
                 <p class="font-weight-bold">Country</p>
              </div>
-            <div class="col-4">
+            <div class="col-6 col-md-4 text-right">
                 <p>{{order.country}}</p>
             </div>
         </div>
@@ -144,16 +146,16 @@
                 </div>
         </div>
          <div class="row pl-2">
-            <div class="col-4">
+            <div class="col-6 col-md-4">
                 <p class="font-weight-bold">Total</p>
              </div>
-            <div class="col-4">
+            <div class="col-6 col-md-4 text-right">
                 <p>{{order.total}} GBP</p>
             </div>
         </div>
         {% if from_profile %}
             <div class="row">
-                <div class="col-12">
+                <div class="col-12 col-md-8 text-right">
                     <a class="btn btn-dark rounded-0" href="{% url 'profile_view' %}"> Back to profile</a>
                 </div>
             </div>

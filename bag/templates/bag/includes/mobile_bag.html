@@ -1,0 +1,90 @@
+{% load bag_tools %}
+<div class="container d-lg-none ">
+    <div class="row">
+        <div class="col-6">
+            <a href="{% url 'products' %}" class="w-100 btn btn-outline-danger rounded-0">
+                <span class="icon">
+                                        <i class="fas fa-chevron-left"></i>
+                </span>
+                <span class="text-uppercase">Wines</span>
+            </a>
+        </div>
+        <div class="col-6 ">
+            <a href="{% url 'checkout' %}" class="w-100 btn btn-warning rounded-0">
+                <i class="fas fa-lock"></i>
+                    <span class="text-uppercase">CHECKOUT</span>
+            </a>
+        </div>
+    </div>
+    <hr>
+    <div class="row">
+        <div class="col-12 text-right"><h6><strong>Total: {{total}} GBP</strong></h6></div>
+    </div>
+    <hr>
+    {% for item in bag_items %}
+        <div class="row">
+            <div class="col-3 px-auto">
+                {% if item.product.image %}
+                    <img class="d-block mx-auto" src="{{MEDIA_URL}}{{item.product.image}}" style="max-height:10rem; max-width:5rem;">
+                    {% else %}
+                    <img  src="{{MEDIA_URL}}no_image.png" class="card-img-top img-fluid" style="max-height:15rem; max-width:15rem;" alt="{{product.name}}">
+                {% endif %}
+            </div>
+            <div class="col-9">
+                <div class="row">
+                    <div class="col-12 ">
+                        <h6 class="text-truncate"><strong>{{item.product.name}}</strong></h6>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-12">
+                        <h6>{{item.size}}</h6>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-4">
+                        Quantity
+                    </div>
+                    <div class="col-8">
+                        <form class="update-form" method="POST" action="{% url 'modify_quantity' item.item_id %}">
+                            {% csrf_token %}
+                            <div class="form-group">
+                                <div class="input-group">
+                                    <div class="input-group-preppend ">
+                                        <button class="decrement-qty btn btn-sm btn-dark rounded-0" 
+                                                    data-item_id="{{ item.item_id }}" id="decrement-qty_{{ item.item_id }}">
+                                            <i class="fas fa-minus fa-sm"></i>
+                                        </button>
+                                    </div>
+                                    <input class="form-control form-control-sm qty-input" type="number" value="{{item.quantity}}" min="1" max="{{product.quantity_available}}" name="quantity" data_item-id="{{item.item_id}}" id="id_qty_{{item.item_id}}">
+                                    <input type="hidden" value="{{item.size}}" name="size">
+                                    <div class="input-group-append">
+                                        <button class="increment-qty btn btn-sm btn-dark rounded-0" 
+                                                    data-item_id="{{ item.item_id}}" id="increment-qty_{{ item.item_id }}">
+                                            <i class="fas fa-plus fa-sm"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                            <input type="hidden" name="product_size" value="{{ item.size }}">
+                        </form>
+                        <a class="update-link text-info"><small>Update</small></a>
+                        <a class="remove-item text-danger float-right" id="remove_{{ item.item_id }}" data-size="{{ item.size }}"><small>Remove</small></a>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-12">
+                        <div class="row">
+                            <div class="col-6">
+                                <h6><strong>Price: {{item.product.price}}</strong></h6>
+                            </div>
+                            <div class="col-6 pl-0 text-right">
+                                <h6><strong>Subtotal: {{item.product.price|subtotal_calc:item.quantity}}</strong></h6>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    {% endfor %}
+</div>

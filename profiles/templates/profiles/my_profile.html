@@ -1,21 +1,21 @@
 {% extends "base.html" %}
 {% load bag_tools %}
 {% load static %}
-<head>
-    <title>{% block extra_title %} Bag {% endblock %}</title>
-    {% block extracss%}
+{% block extra_title %} Bag {% endblock %}
+{% block extracss%}
         
-    {% endblock %}
-</head>
+{% endblock %}
+{% block extra_header%}
+    <div class="row border-bottom border-danger">
+        <div class="col-12 mt-2 text-center">
+            <h2>My Profile</h2>
+        </div>
+    </div>
+{% endblock %}
 {% block content %}
     <div class="container justify-content-center">
-         <div class="row">
-            <div class="col-auto">
-                <h2>My profile</h2>
-            </div>
-        </div>
         <div class="row">
-            <div class="col-6">
+            <div class="col-md-12 col-lg-6">
                 <p> Profile Details </p>
                 <form method="POST" action="{% url 'profile_view' %}" id="profile_update">
                     {% csrf_token%}
@@ -23,7 +23,7 @@
                     <button class="btn btn-dark rounded-0 float-right">Update</button> 
                 </form>
             </div>
-            <div class="col-6">
+            <div class="col-md-12 col-lg-6">
                 <p> Orders history </p>
                 <div class="order-history table-responsive">
                     <table class="table table-sm table-borderless">

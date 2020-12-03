@@ -28,22 +28,22 @@
   </head>
   <body>
     <header class="container-fluid fixed-top" >
-        <div class="row d-none d-lg-flex">
-            <div class="col-auto mr-auto mt-3">
+        <div class="row d-none d-lg-flex justify-content-between">
+            <div class="col-auto mt-3">
                 <a href="{% url 'home' %}" class="text-reset text-decoration-none">
                     <h1 class="brand">Grupo Pierola Romania</h1>
                 </a>
             </div>
             {% if user.is_authenticated or request.session.age > 17 %}
             <!-- The search bar is avaible only after the age is checked or the user is logged in-->
-            <div class="col-4 mt-3">
+            <div class="col-3 mx-auto mt-3">
                 <form method="GET" action="{% url 'products' %}">
                     <div class="input-group input-group-sm">
-                        <input class="form-control" name="q" type="text">
+                        <input class="form-control border-danger rounded-0" name="q" type="text">
                         <div class="input-group-append">
-                            <button class="form-control btn" type="submit">
+                            <button class="btn btn-danger btn-sm rounded-0" type="submit">
                                 <span>
-                                    <i class="fas fa-search"></i>
+                                    <i class="fas fa-search fa-sm"></i>
                                 </span>
                             </button>
                         </div>
@@ -51,7 +51,7 @@
                 </form>
             </div>
             {% endif %}
-            <div class="col-auto ml-auto mt-2">
+            <div class="col-auto mt-2">
                 <ul>
                     {% if user.is_authenticated or request.session.age > 17 %}
                     <!-- The bag link is avaible only after the age is checked or he user is logged in-->
@@ -72,10 +72,10 @@
                     {% endif %}
                     <li class="list-inline-item">
                         <div class="dropdown">
-                            <a class="btn dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <a class="btn btn-danger rounded-0 dropdown-toggle" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 My Account
                             </a>
-                            <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                            <div class="dropdown-menu rounded-0 border-danger" aria-labelledby="dropdownMenuLink">
                                 {% if user.is_authenticated %}
                                     {% if user.is_superuser %}
                                         <!-- if the user logged in is super user the product management link is availble-->

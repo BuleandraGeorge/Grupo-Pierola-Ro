@@ -1,9 +1,5 @@
 from django.shortcuts import render, redirect
-
-
 from datetime import date
-import datetime
-from django.contrib.auth.models import User
 from .forms import Age
 
 today = date.today()
@@ -26,16 +22,6 @@ def AgeCalc(b_year, b_month, b_day):
             return age
 
 
-def index(request):
-    if request.user.is_authenticated:
-        if request.user.is_superuser:
-            return redirect('/admin')
-        else:
-            return redirect('home')
-    else:
-        return redirect('home')
-
-
 def check_age(request):
     if request.method == "POST":
         form = Age(request.POST)
@@ -47,6 +33,7 @@ def check_age(request):
         request.session['age'] = age
         return redirect('home')
     else:
+        print(today)
         form = Age()
         context = {
             'form': form

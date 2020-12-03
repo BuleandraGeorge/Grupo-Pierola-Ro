@@ -53,7 +53,7 @@ class product(models.Model):
     service = models.CharField(max_length=254,blank=True, null=True)
     price = models.DecimalField(max_digits=6, decimal_places=2, null=False, blank=False)
     rating = models.DecimalField(max_digits=2, decimal_places=1, null=True, blank=True)
-    size = models.ManyToManyField(size, null=False, blank=False)
+    size = models.ManyToManyField(size)
     box = models.CharField(max_length=254, null=True, blank=True)
     quantity_available = models.IntegerField(null=False, blank=False)
     total_quantity_sold = models.IntegerField(null=False, blank=False, default=0)
